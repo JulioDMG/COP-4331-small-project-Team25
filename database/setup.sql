@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS COP4331;
 USE COP4331;
 
+-- TODO: fails if user created
+
 CREATE USER 'TheBeast' identified BY 'WeLoveCOP4331';
 GRANT ALL PRIVILEGES ON COP4331.* TO 'TheBeast'@'%';
 
@@ -11,7 +13,6 @@ GRANT ALL PRIVILEGES ON COP4331.* TO 'TheBeast'@'%';
 -- $ mysql -u root -p < setup.sql
 --
 -- $ mysql -u TheBeast -pWeLoveCOP4331 COP4331
---
 -- > select * from Users;
 -- > select * from Colors;
 -- > select * from Colors where UserID=1;

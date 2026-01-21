@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS COP4331;
 USE COP4331;
 
+-- TODO: fails if tables created
+
 CREATE TABLE `Users` (
   `ID`        INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `FirstName` VARCHAR(50)  NOT NULL DEFAULT '',
