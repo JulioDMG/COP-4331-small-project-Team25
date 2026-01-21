@@ -1,7 +1,10 @@
+
+-- schema.sql -- database initialization --
+
+-- Should only be ran once. Will fail if tables exist.
+
 CREATE DATABASE IF NOT EXISTS COP4331;
 USE COP4331;
-
--- TODO: fails if tables created
 
 CREATE TABLE `Users` (
   `ID`        INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,

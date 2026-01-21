@@ -1,7 +1,10 @@
+
+-- seeds.sql -- initialize tables --
+
+-- Should only be ran once. Or else will create duplicate entries.
+
 CREATE DATABASE IF NOT EXISTS COP4331;
 USE COP4331;
-
--- TODO: duplicates created on both
 
 INSERT INTO Users (FirstName,LastName,Login,Password) VALUES
   ('Rick','Leinecker','RickL','COP4331'),

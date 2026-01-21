@@ -1,9 +1,11 @@
+
+-- setup.sql -- creates users, re-runnable --
+
 CREATE DATABASE IF NOT EXISTS COP4331;
 USE COP4331;
 
--- TODO: fails if user created
-
-CREATE USER 'TheBeast' identified BY 'WeLoveCOP4331';
+CREATE USER IF NOT EXISTS 'TheBeast'@'%';
+ALTER USER 'TheBeast'@'%' IDENTIFIED BY 'WeLoveCOP4331';
 GRANT ALL PRIVILEGES ON COP4331.* TO 'TheBeast'@'%';
 
 -- To Test:
