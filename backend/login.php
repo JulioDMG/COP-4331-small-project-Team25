@@ -3,7 +3,7 @@
 
     require_once("db.php"); // check for the database and define the $conn variable
 
-    $inData = json_decode(file_get_contents("php//input"),true);
+    $inData = json_decode(file_get_contents("php://input"),true);
 
     $stmt = $conn->prepare("SELECT ID,firstName,lastName FROM Users WHERE Login=? AND Password =?"); //creates a template
     $stmt->bind_param("ss", $inData["login"], $inData["password"]); //bind data provided by the user at login
@@ -13,7 +13,7 @@
     
     if( $row = $result->fetch_assoc()) //check if the data provided exists
 	{
-		echo json_encode(["id" => $row["ID"],"firstName" => $row["FirstName"],"lastName" => $row["LastName"],"error" => ""]); //json file with correct response
+		echo json_encode(["id" => $row["ID"],"firstName" => $row["firstName"],"lastName" => $row["lastName"],"error" => ""]); //json file with correct response
 	}
 	else
 	{
