@@ -21,7 +21,7 @@ function doLogin()
 //	var tmp = {login:login,password:hash};
 	let jsonPayload = JSON.stringify( tmp );
 	
-	let url = urlBase + '/Login.' + extension;
+	let url = urlBase + '/login.' + extension;
 
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -46,7 +46,7 @@ function doLogin()
 
 				saveCookie();
 	
-				window.location.href = "color.html";
+				window.location.href = "contacts.html";
 			}
 		};
 		xhr.send(jsonPayload);
@@ -62,8 +62,9 @@ function saveCookie()
 {
 	let minutes = 20;
 	let date = new Date();
-	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+	date.setTime(date.getTime() + (minutes * 60 * 1000));
+
+	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString() + ";path=/";
 }
 
 function readCookie()
@@ -104,82 +105,122 @@ function doLogout()
 	userId = 0;
 	firstName = "";
 	lastName = "";
-	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+	document.cookie = "firstName=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+	document.cookie = "lastName=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+	document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 	window.location.href = "index.html";
 }
 
-function addColor()
+function getContacts()
 {
-	let newColor = document.getElementById("colorText").value;
-	document.getElementById("colorAddResult").innerHTML = "";
+	document.getElementById("results").innerHTML = "";
 
-	let tmp = {color:newColor,userId:userId};
-	let jsonPayload = JSON.stringify( tmp );
+	let tmp = { userId: userId };
+	let jsonPayload = JSON.stringify(tmp);
 
-	let url = urlBase + '/AddColor.' + extension;
-	
+	let url = urlBase + '/GetContacts.' + extension;
+
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
 	try
 	{
-		xhr.onreadystatechange = function() 
+		xhr.onreadystatechange = function()
 		{
-			if (this.readyState == 4 && this.status == 200) 
+			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("colorAddResult").innerHTML = "Color has been added";
+				let jsonObject = JSON.parse(xhr.responseText);
+
+				if (jsonObject.error && jsonObject.error !== "")
+				{
+					document.getElementById("results").innerHTML = jsonObject.error;
+					return;
+				}
+
+				renderContacts(jsonObject.results);
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("colorAddResult").innerHTML = err.message;
+		document.getElementById("results").innerHTML = err.message;
 	}
-	
 }
 
-function searchColor()
+function searchContacts()
 {
-	let srch = document.getElementById("searchText").value;
-	document.getElementById("colorSearchResult").innerHTML = "";
-	
-	let colorList = "";
+	let srch = document.getElementById("searchText").value.trim();
+	document.getElementById("results").innerHTML = "";
 
-	let tmp = {search:srch,userId:userId};
-	let jsonPayload = JSON.stringify( tmp );
+	// If empty, just load all contacts
+	if (srch === "")
+	{
+		getContacts();
+		return;
+	}
 
-	let url = urlBase + '/SearchColors.' + extension;
-	
+	let tmp = { search: srch, userId: userId };
+	let jsonPayload = JSON.stringify(tmp);
+
+	let url = urlBase + '/SearchContacts.' + extension;
+
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
 	try
 	{
-		xhr.onreadystatechange = function() 
+		xhr.onreadystatechange = function()
 		{
-			if (this.readyState == 4 && this.status == 200) 
+			if (this.readyState == 4 && this.status == 200)
 			{
-				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
-				let jsonObject = JSON.parse( xhr.responseText );
-				
-				for( let i=0; i<jsonObject.results.length; i++ )
+				let jsonObject = JSON.parse(xhr.responseText);
+
+				if (jsonObject.error && jsonObject.error !== "")
 				{
-					colorList += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						colorList += "<br />\r\n";
-					}
+					document.getElementById("results").innerHTML = jsonObject.error;
+					return;
 				}
-				
-				document.getElementsByTagName("p")[0].innerHTML = colorList;
+
+				renderContacts(jsonObject.results);
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("colorSearchResult").innerHTML = err.message;
+		document.getElementById("results").innerHTML = err.message;
 	}
-	
+}
+
+function renderContacts(list)
+{
+	// Show contacts in a simple table
+	let html = "<table style='width:100%; font-size:22px;'><tr><th>Name</th><th>Phone</th><th>Email</th></tr>";
+
+	for (let i = 0; i < list.length; i++)
+	{
+		let c = list[i];
+		let name = `${c.firstName} ${c.lastName}`;
+		html += `<tr>
+			<td>${escapeHtml(name)}</td>
+			<td>${escapeHtml(c.phone)}</td>
+			<td>${escapeHtml(c.email)}</td>
+		</tr>`;
+	}
+
+	html += "</table>";
+	document.getElementById("results").innerHTML = html;
+}
+
+function escapeHtml(s)
+{
+	return String(s ?? "")
+		.replaceAll("&", "&amp;")
+		.replaceAll("<", "&lt;")
+		.replaceAll(">", "&gt;")
+		.replaceAll('"', "&quot;")
+		.replaceAll("'", "&#039;");
 }
