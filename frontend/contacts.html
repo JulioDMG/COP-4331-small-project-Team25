@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Contacts</title>
+
+	<script type="text/javascript" src="js/code.js"></script>
+
+	<link href="css/styles.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			readCookie();     // verify logged in
+			getContacts();   // load contacts immediately
+		});
+	</script>
+</head>
+
+<body>
+
+<h1 id="title">My Contacts</h1>
+
+<!-- Logged in header -->
+<div id="loggedInDiv">
+	<span id="userName"></span><br />
+	<button type="button" id="logoutButton" class="buttons" onclick="doLogout();">
+		Log Out
+	</button>
+</div>
+
+<!-- Search + results -->
+<div id="accessUIDiv">
+
+	<input
+		type="text"
+		id="searchText"
+		placeholder="Search name, phone, or email"
+	/>
+
+	<button
+		type="button"
+		class="buttons"
+		onclick="searchContacts();">
+		Search
+	</button>
+
+	<br><br>
+
+	<div id="results"></div>
+
+</div>
+
+</body>
+</html>
