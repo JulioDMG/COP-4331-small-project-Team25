@@ -14,6 +14,7 @@ function doLogin()
 	let login = document.getElementById("loginName").value;
 	let password = document.getElementById("loginPassword").value;
 //	var hash = md5( password );
+	window.location.href = "contacts.html";
 
 	document.getElementById("loginResult").innerHTML = "";
 
