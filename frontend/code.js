@@ -251,3 +251,20 @@ function doRegister()
   {
     if (this.readyState == 4)
     {
+      let jsonObject = {};
+      try { jsonObject = JSON.parse(xhr.responseText); } catch(e) {}
+
+      if (this.status != 200 || (jsonObject.error && jsonObject.error !== ""))
+      {
+        document.getElementById("registerResult").innerHTML =
+          jsonObject.error ? jsonObject.error : "Registration failed";
+        return;
+      }
+
+      document.getElementById("registerResult").innerHTML = "Registered! Go log in.";
+      window.location.href = "index.html";
+    }
+  };
+
+  xhr.send(jsonPayload);
+}
