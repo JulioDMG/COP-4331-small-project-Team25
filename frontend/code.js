@@ -10,18 +10,18 @@ function doLogin()
 	userId = 0;
 	firstName = "";
 	lastName = "";
-
+	
 	let login = document.getElementById("loginName").value;
 	let password = document.getElementById("loginPassword").value;
 //	var hash = md5( password );
-
+	
 	document.getElementById("loginResult").innerHTML = "";
 
 	let tmp = {login:login,password:password};
 //	var tmp = {login:login,password:hash};
 	let jsonPayload = JSON.stringify( tmp );
-
-	let url = urlBase + '/Login.' + extension;
+	
+	let url = urlBase + '/login.' + extension;
 
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
@@ -34,18 +34,18 @@ function doLogin()
 			{
 				let jsonObject = JSON.parse( xhr.responseText );
 				userId = jsonObject.id;
-
+		
 				if( userId < 1 )
 				{		
 					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
 					return;
 				}
-
+		
 				firstName = jsonObject.firstName;
 				lastName = jsonObject.lastName;
 
 				saveCookie();
-
+	
 				window.location.href = "contacts.html";
 			}
 		};
@@ -62,9 +62,8 @@ function saveCookie()
 {
 	let minutes = 20;
 	let date = new Date();
-	date.setTime(date.getTime() + (minutes * 60 * 1000));
-
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString() + ";path=/";
+	date.setTime(date.getTime()+(minutes*60*1000));	
+	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
 }
 
 function readCookie()
@@ -89,7 +88,7 @@ function readCookie()
 			userId = parseInt( tokens[1].trim() );
 		}
 	}
-
+	
 	if( userId < 0 )
 	{
 		window.location.href = "index.html";
@@ -105,149 +104,119 @@ function doLogout()
 	userId = 0;
 	firstName = "";
 	lastName = "";
-	document.cookie = "firstName=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-	document.cookie = "lastName=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-	document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
 	window.location.href = "index.html";
 }
 
-function getContacts()
+function addColor()
 {
-	document.getElementById("results").innerHTML = "";
+	let newColor = document.getElementById("colorText").value;
+	document.getElementById("colorAddResult").innerHTML = "";
 
-	let tmp = { userId: userId };
-	let jsonPayload = JSON.stringify(tmp);
+	let tmp = {color:newColor,userId,userId};
+	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/GetContacts.' + extension;
-
+	let url = urlBase + '/AddColor.' + extension;
+	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
 	try
 	{
-		xhr.onreadystatechange = function()
+		xhr.onreadystatechange = function() 
 		{
-			if (this.readyState == 4 && this.status == 200)
+			if (this.readyState == 4 && this.status == 200) 
 			{
-				let jsonObject = JSON.parse(xhr.responseText);
-
-				if (jsonObject.error && jsonObject.error !== "")
-				{
-					document.getElementById("results").innerHTML = jsonObject.error;
-					return;
-				}
-
-				renderContacts(jsonObject.results);
+				document.getElementById("colorAddResult").innerHTML = "Color has been added";
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("results").innerHTML = err.message;
+		document.getElementById("colorAddResult").innerHTML = err.message;
 	}
+	
 }
 
-function searchContacts()
+function searchColor()
 {
-	let srch = document.getElementById("searchText").value.trim();
-	document.getElementById("results").innerHTML = "";
+	let srch = document.getElementById("searchText").value;
+	document.getElementById("colorSearchResult").innerHTML = "";
+	
+	let colorList = "";
 
-	// If empty, just load all contacts
-	if (srch === "")
-	{
-		getContacts();
-		return;
-	}
+	let tmp = {search:srch,userId:userId};
+	let jsonPayload = JSON.stringify( tmp );
 
-	let tmp = { search: srch, userId: userId };
-	let jsonPayload = JSON.stringify(tmp);
-
-	let url = urlBase + '/SearchContacts.' + extension;
-
+	let url = urlBase + '/SearchColors.' + extension;
+	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
 	try
 	{
-		xhr.onreadystatechange = function()
+		xhr.onreadystatechange = function() 
 		{
-			if (this.readyState == 4 && this.status == 200)
+			if (this.readyState == 4 && this.status == 200) 
 			{
-				let jsonObject = JSON.parse(xhr.responseText);
-
-				if (jsonObject.error && jsonObject.error !== "")
+				document.getElementById("colorSearchResult").innerHTML = "Color(s) has been retrieved";
+				let jsonObject = JSON.parse( xhr.responseText );
+				
+				for( let i=0; i<jsonObject.results.length; i++ )
 				{
-					document.getElementById("results").innerHTML = jsonObject.error;
-					return;
+					colorList += jsonObject.results[i];
+					if( i < jsonObject.results.length - 1 )
+					{
+						colorList += "<br />\r\n";
+					}
 				}
-
-				renderContacts(jsonObject.results);
+				
+				document.getElementsByTagName("p")[0].innerHTML = colorList;
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("results").innerHTML = err.message;
+		document.getElementById("colorSearchResult").innerHTML = err.message;
 	}
-}
-
-function renderContacts(list)
-{
-	// Show contacts in a simple table
-	let html = "<table style='width:100%; font-size:22px;'><tr><th>Name</th><th>Phone</th><th>Email</th></tr>";
-
-	for (let i = 0; i < list.length; i++)
-	{
-		let c = list[i];
-		let name = `${c.firstName} ${c.lastName}`;
-		html += `<tr>
-			<td>${escapeHtml(name)}</td>
-			<td>${escapeHtml(c.phone)}</td>
-			<td>${escapeHtml(c.email)}</td>
-		</tr>`;
-	}
-
-	html += "</table>";
-	document.getElementById("results").innerHTML = html;
-}
-
-function escapeHtml(s)
-{
-	return String(s ?? "")
-		.replaceAll("&", "&amp;")
-		.replaceAll("<", "&lt;")
-		.replaceAll(">", "&gt;")
-		.replaceAll('"', "&quot;")
-		.replaceAll("'", "&#039;");
+	
 }
 function goToRegister()
 {
-  window.location.href = "register.html";
+    window.location.href = "register.html";
 }
-
 function doRegister()
 {
-  let firstName = document.getElementById("firstName").value.trim();
-  let lastName  = document.getElementById("lastName").value.trim();
-  let login     = document.getElementById("login").value.trim();
-  let password  = document.getElementById("password").value;
+    let firstName = document.getElementById("firstName").value;
+    let lastName  = document.getElementById("lastName").value;
+    let login     = document.getElementById("login").value;
+    let password  = document.getElementById("password").value;
 
-  document.getElementById("registerResult").innerHTML = "";
+    let hash = md5(password);
 
-  let tmp = { firstName:firstName, lastName:lastName, login:login, password:password };
-  let jsonPayload = JSON.stringify(tmp);
+    let tmp = {
+        firstName: firstName,
+        lastName: lastName,
+        login: login,
+        password: hash
+    };
 
-  let url = urlBase + '/Register.' + extension;
+    let jsonPayload = JSON.stringify(tmp);
 
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    let url = urlBase + '/Register.' + extension;
 
-  xhr.onreadystatechange = function()
-  {
-    if (this.readyState == 4)
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    try
     {
+        xhr.send(jsonPayload);
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+}
