@@ -1,4 +1,4 @@
-const urlBase = 'www.tempclassproject.xyz/LAMPAPI';
+const urlBase = 'http://www.tempclassproject.xyz/LAMPAPI';
 const extension = 'php';
 
 let userId = 0;
@@ -18,11 +18,9 @@ function doLogin()
 	document.getElementById("loginResult").innerHTML = "";
 
 	let tmp = {login:login,password:password};
-
 //	var tmp = {login:login,password:hash};
 	let jsonPayload = JSON.stringify( tmp );
 
-	let url = urlBase + '/login.' + extension;
 	let url = urlBase + '/Login.' + extension;
 
 	let xhr = new XMLHttpRequest();
@@ -226,3 +224,30 @@ function escapeHtml(s)
 		.replaceAll('"', "&quot;")
 		.replaceAll("'", "&#039;");
 }
+function goToRegister()
+{
+  window.location.href = "register.html";
+}
+
+function doRegister()
+{
+  let firstName = document.getElementById("firstName").value.trim();
+  let lastName  = document.getElementById("lastName").value.trim();
+  let login     = document.getElementById("login").value.trim();
+  let password  = document.getElementById("password").value;
+
+  document.getElementById("registerResult").innerHTML = "";
+
+  let tmp = { firstName:firstName, lastName:lastName, login:login, password:password };
+  let jsonPayload = JSON.stringify(tmp);
+
+  let url = urlBase + '/Register.' + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  xhr.onreadystatechange = function()
+  {
+    if (this.readyState == 4)
+    {
