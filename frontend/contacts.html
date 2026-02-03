@@ -1,55 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Contacts</title>
-
-<link rel="stylesheet" href="styles.css">
-
-<script src="md5.js"></script>
-<script src="code.js"></script>
-
-	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			readCookie();     // verify logged in
-			getContacts();   // load contacts immediately
-		});
-	</script>
+  <title>Contacts</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="js/code.js"></script>
 </head>
+<body onload="readCookie();">
 
-<body>
+<h1 style="text-align: center;">Contacts</h1>
 
-<h1 id="title">My Contacts</h1>
+<input type="text" id="searchText" placeholder="Search">
+<button onclick="searchContacts()">Search</button>
 
-<!-- Logged in header -->
-<div id="loggedInDiv">
-	<span id="userName"></span><br />
-	<button type="button" id="logoutButton" class="buttons" onclick="doLogout();">
-		Log Out
-	</button>
-</div>
+<div id="results"></div>
 
-<!-- Search + results -->
-<div id="accessUIDiv">
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contacts</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="js/code.js"></script>
+</head>
+<body onload="readCookie();">
 
-	<input
-		type="text"
-		id="searchText"
-		placeholder="Search name, phone, or email"
-	/>
+<h1 style="text-align: center;">Contacts</h1>
 
-	<button
-		type="button"
-		class="buttons"
-		onclick="searchContacts();">
-		Search
-	</button>
+<input type="text" id="searchText" placeholder="Search">
+<button onclick="searchContacts()">Search</button>
 
-	<br><br>
+<div id="results"></div>
 
-	<div id="results"></div>
-
+<div style ="text-align:center; margin-top: 20px;">
+<button onclick="doLogout()">Logout</button>
 </div>
 
 </body>
