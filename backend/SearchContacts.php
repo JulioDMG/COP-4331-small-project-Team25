@@ -22,8 +22,8 @@
     $searchTerm = "%" . $inData["search"] . "%";
 
     
-    //Searches FirstName, LastName, Email, and Phone fields
-    $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Phone, Email FROM Contacts WHERE UserID=? AND (FirstName LIKE ? OR LastName LIKE ? OR Email LIKE ? OR Phone LIKE ?) ORDER BY LastName, FirstName");
+    //Searches FirstName, LastName, Email, and Phone fields (updated to be case-insensitive)
+    $stmt = $conn->prepare("SELECT ID, FirstName, LastName, Phone, Email FROM Contacts WHERE UserID=? AND (LOWER(FirstName) LIKE LOWER(?) OR LOWER(LastName) LIKE LOWER(?) OR LOWER(Email) LIKE LOWER(?) OR LOWER(Phone) LIKE LOWER(?)) ORDER BY LastName, FirstName");
     $stmt->bind_param("issss", $inData["userId"], $searchTerm, $searchTerm, $searchTerm, $searchTerm);
     $stmt->execute(); // Execute query
 
