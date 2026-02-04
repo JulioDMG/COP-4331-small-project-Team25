@@ -6,6 +6,18 @@
     //Decode JSON input from request body
     $inData = json_decode(file_get_contents("php://input"), true);
 
+    //input validation for debuggin
+    if(!$inData)
+    {
+        echo json_encode(["results"=> [],"error"=>"Invalid JSON input"]);
+        exit();
+    }
+    if(!isset($inData["userId"]) || !isset($inData["search"]))
+    {
+        echo json_encode(["results"=> [],"error"=> "No user Id or search parameter"]);
+        exit();
+    }
+
     //Add wildcards for partial matching.
     $searchTerm = "%" . $inData["search"] . "%";
 
