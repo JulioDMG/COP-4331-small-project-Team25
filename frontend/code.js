@@ -189,39 +189,45 @@ function searchContacts() {
 
 // ADD CONTACT
 function addContact() {
-        let firstName = document.getElementById("firstName").value;
-        let lastName = document.getElementById("lastName").value;
-        let phone = document.getElementById("phone").value;
-        let email = document.getElementById("email").value;
+	let firstName = document.getElementById("firstName").value;
+	let lastName = document.getElementById("lastName").value;
+	let phone = document.getElementById("phone").value;
+	let email = document.getElementById("email").value;
 
-        let tmp = {
-                firstName: firstName,
-                lastName: lastName,
-                phone: phone,
-                email: email,
-                userId: userId
-        };
+	let tmp = {
+		firstName: firstName,
+		lastName: lastName,
+		phone: phone,
+		email: email,
+		userId: userId
+	};
 
-        let jsonPayload = JSON.stringify(tmp);
-        let url = urlBase + '/CreateContact.' + extension;
+	let jsonPayload = JSON.stringify(tmp);
+	let url = urlBase + '/CreateContact.' + extension;
 
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-        try {
-                xhr.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200) {
-                                let jsonObject = JSON.parse(xhr.responseText);
-                                if (jsonObject.error !== "") {
-                                        alert("Error: " + jsonObject.error);
-                                } else {
-                                        alert("Contact added successfully!");
-                                }
-                        }
-                };
-                xhr.send(jsonPayload);
-        } catch (err) {
-                alert("Request failed: " + err.message);
-        }
+	try {
+		xhr.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				let jsonObject = JSON.parse(xhr.responseText);
+				if (jsonObject.error !== "") {
+					alert("Error: " + jsonObject.error);
+				} else {
+					alert("Contact added successfully!");
+				}
+			}
+		};
+		xhr.send(jsonPayload);
+	} catch (err) {
+		alert("Request failed: " + err.message);
+	}
+}
+
+// TOGGLE ADD CONTACT FORM
+function toggleAddContact() {
+    const form = document.getElementById("addContactForm");
+    form.style.display = (form.style.display === "none") ? "block" : "none";
 }
