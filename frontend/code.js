@@ -143,19 +143,19 @@ function getContacts() {
 					resultList += `Name: ${contact.firstName} ${contact.lastName}, Phone: ${contact.phone}, Email: ${contact.email}<br>`;
 				}
 
-				document.getElementById("results").innerHTML = resultList;
+				document.getElementById("allResults").innerHTML = resultList;
 			}
 		};
 		xhr.send(jsonPayload);
 	} catch (err) {
-		document.getElementById("results").innerHTML = err.message;
+		document.getElementById("allResults").innerHTML = err.message;
 	}
 }
 
 // SEARCH CONTACTS
 function searchContacts() {
 	let srch = document.getElementById("searchText").value;
-	document.getElementById("results").innerHTML = "";
+	document.getElementById("searchResults").innerHTML = "";
 
 	let tmp = { search: srch, userId: userId };
 	let jsonPayload = JSON.stringify(tmp);
@@ -178,11 +178,11 @@ function searchContacts() {
 					resultList += `Name: ${contact.firstName} ${contact.lastName}, Phone: ${contact.phone}, Email: ${contact.email}<br>`;
 				}
 
-				document.getElementById("results").innerHTML = resultList;
+				document.getElementById("searchResults").innerHTML = resultList;
 			}
 		};
 		xhr.send(jsonPayload);
 	} catch (err) {
-		document.getElementById("results").innerHTML = err.message;
+		document.getElementById("searchResults").innerHTML = err.message;
 	}
 }
