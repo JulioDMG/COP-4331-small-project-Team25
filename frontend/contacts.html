@@ -4,25 +4,34 @@
   <title>Contacts</title>
   <link rel="stylesheet" href="styles.css">
   <script src="js/code.js"></script>
+<style>
+body{
+background: #2b2118;
+    color: Grey;
+    font-family: Arial, sans-serif;
+  }
+</style>
 </head>
 <body onload="readCookie();">
 
   <h1 style="text-align: center;">Contacts</h1>
 
+  <!-- Search Section -->
   <div style="text-align: center; margin-top: 20px;">
     <h2>Search Contacts</h2>
     <input type="text" id="searchText" placeholder="Search">
     <button onclick="searchContacts()">Search</button>
+    <div id="searchResults" style="margin-top: 20px;"></div>
   </div>
 
-
+  <!-- Get All Section -->
   <div style="text-align: center; margin-top: 40px;">
     <h2>Get Contacts</h2>
     <button onclick="getContacts()">Get All Contacts</button>
+    <div id="allResults" style="margin-top: 20px;"></div>
   </div>
 
-  <div id="results" style="text-align: center; margin-top: 40px;"></div>
-
+  <!-- Logout -->
   <div style="text-align: center; margin-top: 30px;">
     <button onclick="doLogout()">Logout</button>
   </div>
