@@ -31,6 +31,21 @@ background: #2b2118;
     <div id="allResults" style="margin-top: 20px;"></div>
   </div>
 
+  <!-- Add Contact Button -->
+<div style="text-align: center; margin-top: 40px;">
+  <button onclick="toggleAddContact()">Add New Contact</button>
+</div>
+
+<!-- Add Contact Form (initially hidden) -->
+<div id="addContactForm" style="display: none; text-align: center; margin-top: 20px;">
+  <h2>Add Contact</h2>
+  <input type="text" id="firstName" placeholder="First Name"><br><br>
+  <input type="text" id="lastName" placeholder="Last Name"><br><br>
+  <input type="text" id="phone" placeholder="Phone"><br><br>
+  <input type="text" id="email" placeholder="Email"><br><br>
+  <button onclick="addContact()">Submit Contact</button>
+</div>
+
   <!-- Logout -->
   <div style="text-align: center; margin-top: 30px;">
     <button onclick="doLogout()">Logout</button>
