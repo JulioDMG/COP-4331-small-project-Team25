@@ -7,223 +7,238 @@ let lastName = "";
 
 // LOGIN
 function doLogin() {
-	userId = 0;
-	firstName = "";
-	lastName = "";
+        userId = 0;
+        firstName = "";
+        lastName = "";
 
-	let login = document.getElementById("loginName").value;
-	let password = document.getElementById("loginPassword").value;
+        let login = document.getElementById("loginName").value;
+        let password = md5(document.getElementById("loginPassword").value);
 
-	document.getElementById("loginResult").innerHTML = "";
+        document.getElementById("loginResult").innerHTML = "";
 
-	let tmp = { login: login, password: password };
-	let jsonPayload = JSON.stringify(tmp);
-	let url = urlBase + '/login.' + extension;
+        let tmp = { login: login, password: password };
+        let jsonPayload = JSON.stringify(tmp);
+        let url = urlBase + '/login.' + extension;
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				let jsonObject = JSON.parse(xhr.responseText);
-				userId = jsonObject.id;
+        try {
+                xhr.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                                let jsonObject = JSON.parse(xhr.responseText);
+                                userId = jsonObject.id;
 
-				if (userId < 1) {
-					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-					return;
-				}
+                                if (userId < 1) {
+                                        document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+                                        return;
+                                }
 
-				firstName = jsonObject.firstName;
-				lastName = jsonObject.lastName;
+                                firstName = jsonObject.firstName;
+                                lastName = jsonObject.lastName;
 
-				saveCookie();
-				window.location.href = "contacts.html";
-			}
-		};
-		xhr.send(jsonPayload);
-	} catch (err) {
-		document.getElementById("loginResult").innerHTML = err.message;
-	}
+                                saveCookie();
+                                window.location.href = "contacts.html";
+                        }
+                };
+                xhr.send(jsonPayload);
+        } catch (err) {
+                document.getElementById("loginResult").innerHTML = err.message;
+        }
 }
 
 // COOKIE FUNCTIONS
 function saveCookie() {
-	let minutes = 20;
-	let date = new Date();
-	date.setTime(date.getTime() + (minutes * 60 * 1000));
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+        let minutes = 20;
+        let date = new Date();
+        date.setTime(date.getTime() + (minutes * 60 * 1000));
+        document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
 }
 
 function readCookie() {
-	userId = -1;
-	let data = document.cookie;
-	let splits = data.split(",");
-	for (let i = 0; i < splits.length; i++) {
-		let thisOne = splits[i].trim();
-		let tokens = thisOne.split("=");
-		if (tokens[0] === "firstName") {
-			firstName = tokens[1];
-		} else if (tokens[0] === "lastName") {
-			lastName = tokens[1];
-		} else if (tokens[0] === "userId") {
-			userId = parseInt(tokens[1].trim());
-		}
-	}
+        userId = -1;
+        let data = document.cookie;
+        let splits = data.split(",");
+        for (let i = 0; i < splits.length; i++) {
+                let thisOne = splits[i].trim();
+                let tokens = thisOne.split("=");
+                if (tokens[0] === "firstName") {
+                        firstName = tokens[1];
+                } else if (tokens[0] === "lastName") {
+                        lastName = tokens[1];
+                } else if (tokens[0] === "userId") {
+                        userId = parseInt(tokens[1].trim());
+                }
+        }
 
-	if (userId < 0) {
-		window.location.href = "index.html";
-	}
+        if (userId < 0) {
+                window.location.href = "index.html";
+        }
 }
 
 // LOGOUT
 function doLogout() {
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-	window.location.href = "index.html";
+        userId = 0;
+        firstName = "";
+        lastName = "";
+        document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+        window.location.href = "index.html";
 }
 
 // REGISTER
 function goToRegister() {
-	window.location.href = "register.html";
+        window.location.href = "register.html";
 }
 
 function doRegister() {
-	let firstName = document.getElementById("firstName").value;
-	let lastName = document.getElementById("lastName").value;
-	let login = document.getElementById("login").value;
-	let password = document.getElementById("password").value;
+        let firstName = document.getElementById("firstName").value;
+        let lastName = document.getElementById("lastName").value;
+        let login = document.getElementById("login").value;
+        let password = document.getElementById("password").value;
 
-	let hash = md5(password);
+        let hash = md5(password);
 
-	let tmp = {
-		firstName: firstName,
-		lastName: lastName,
-		login: login,
-		password: hash
-	};
+        let tmp = {
+                firstName: firstName,
+                lastName: lastName,
+                login: login,
+                password: hash
+        };
 
-	let jsonPayload = JSON.stringify(tmp);
-	let url = urlBase + '/Register.' + extension;
+        let jsonPayload = JSON.stringify(tmp);
+        let url = urlBase + '/register.' + extension;
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-	try {
-		xhr.send(jsonPayload);
-	} catch (err) {
-		console.log(err);
-	}
+
+        try {
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log("Response:", xhr.responseText);
+                    let jsonObject = JSON.parse(xhr.responseText);
+                    if (jsonObject.error !== "") {
+                        document.getElementById("registerResult").innerHTML = "Error: " + jsonObject.error;
+                    } else {
+                        document.getElementById("registerResult").innerHTML = "Account created successfully!";
+                        // Optional: redirect after 1.5s
+                        setTimeout(() => window.location.href = "index.html", 1500);
+                    }
+                }
+            };
+            xhr.send(jsonPayload);
+        } catch (err) {
+            console.log("Register request failed:", err.message);
+            document.getElementById("registerResult").innerHTML = "Request failed: " + err.message;
+        }
 }
 
 // GET ALL CONTACTS
 function getContacts() {
-	let tmp = { userId: userId };
-	let jsonPayload = JSON.stringify(tmp);
+        let tmp = { userId: userId };
+        let jsonPayload = JSON.stringify(tmp);
 
-	let url = urlBase + '/GetContacts.' + extension;
+        let url = urlBase + '/GetContacts.' + extension;
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				let jsonObject = JSON.parse(xhr.responseText);
-				let results = jsonObject.results;
+        try {
+                xhr.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                                let jsonObject = JSON.parse(xhr.responseText);
+                                let results = jsonObject.results;
 
-				let resultList = "";
-				for (let i = 0; i < results.length; i++) {
-					let contact = results[i];
-					resultList += `Name: ${contact.firstName} ${contact.lastName}, Phone: ${contact.phone}, Email: ${contact.email}<br>`;
-				}
+                                let resultList = "";
+                                for (let i = 0; i < results.length; i++) {
+                                        let contact = results[i];
+                                        resultList += `Name: ${contact.firstName} ${contact.lastName}, Phone: ${contact.phone}, Email: ${contact.email}<br>`;
+                                }
 
-				document.getElementById("allResults").innerHTML = resultList;
-			}
-		};
-		xhr.send(jsonPayload);
-	} catch (err) {
-		document.getElementById("allResults").innerHTML = err.message;
-	}
+                                document.getElementById("allResults").innerHTML = resultList;
+                        }
+                };
+                xhr.send(jsonPayload);
+        } catch (err) {
+                document.getElementById("allResults").innerHTML = err.message;
+        }
 }
 
 // SEARCH CONTACTS
 function searchContacts() {
-	let srch = document.getElementById("searchText").value;
-	document.getElementById("searchResults").innerHTML = "";
+        let srch = document.getElementById("searchText").value;
+        document.getElementById("searchResults").innerHTML = "";
 
-	let tmp = { search: srch, userId: userId };
-	let jsonPayload = JSON.stringify(tmp);
+        let tmp = { search: srch, userId: userId };
+        let jsonPayload = JSON.stringify(tmp);
 
-	let url = urlBase + '/SearchContacts.' + extension;
+        let url = urlBase + '/SearchContacts.' + extension;
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				let jsonObject = JSON.parse(xhr.responseText);
-				let results = jsonObject.results;
+        try {
+                xhr.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                                let jsonObject = JSON.parse(xhr.responseText);
+                                let results = jsonObject.results;
 
-				let resultList = "";
-				for (let i = 0; i < results.length; i++) {
-					let contact = results[i];
-					resultList += `Name: ${contact.firstName} ${contact.lastName}, Phone: ${contact.phone}, Email: ${contact.email}<br>`;
-				}
+                                let resultList = "";
+                                for (let i = 0; i < results.length; i++) {
+                                        let contact = results[i];
+                                        resultList += `Name: ${contact.firstName} ${contact.lastName}, Phone: ${contact.phone}, Email: ${contact.email}<br>`;
+                                }
 
-				document.getElementById("searchResults").innerHTML = resultList;
-			}
-		};
-		xhr.send(jsonPayload);
-	} catch (err) {
-		document.getElementById("searchResults").innerHTML = err.message;
-	}
+                                document.getElementById("searchResults").innerHTML = resultList;
+                        }
+                };
+                xhr.send(jsonPayload);
+        } catch (err) {
+                document.getElementById("searchResults").innerHTML = err.message;
+        }
 }
 
 // ADD CONTACT
 function addContact() {
-	let firstName = document.getElementById("firstName").value;
-	let lastName = document.getElementById("lastName").value;
-	let phone = document.getElementById("phone").value;
-	let email = document.getElementById("email").value;
+        let firstName = document.getElementById("firstName").value;
+        let lastName = document.getElementById("lastName").value;
+        let phone = document.getElementById("phone").value;
+        let email = document.getElementById("email").value;
 
-	let tmp = {
-		firstName: firstName,
-		lastName: lastName,
-		phone: phone,
-		email: email,
-		userId: userId
-	};
+        let tmp = {
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone,
+                email: email,
+                userId: userId
+        };
 
-	let jsonPayload = JSON.stringify(tmp);
-	let url = urlBase + '/CreateContact.' + extension;
+        let jsonPayload = JSON.stringify(tmp);
+        let url = urlBase + '/CreateContact.' + extension;
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-	try {
-		xhr.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				let jsonObject = JSON.parse(xhr.responseText);
-				if (jsonObject.error !== "") {
-					alert("Error: " + jsonObject.error);
-				} else {
-					alert("Contact added successfully!");
-				}
-			}
-		};
-		xhr.send(jsonPayload);
-	} catch (err) {
-		alert("Request failed: " + err.message);
-	}
+        try {
+                xhr.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                                let jsonObject = JSON.parse(xhr.responseText);
+                                if (jsonObject.error !== "") {
+                                        alert("Error: " + jsonObject.error);
+                                } else {
+                                        alert("Contact added successfully!");
+                                }
+                        }
+                };
+                xhr.send(jsonPayload);
+        } catch (err) {
+                alert("Request failed: " + err.message);
+        }
 }
 
 // TOGGLE ADD CONTACT FORM
