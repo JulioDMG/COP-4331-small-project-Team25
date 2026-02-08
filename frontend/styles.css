@@ -1,9 +1,9 @@
-body 
+body
 {
     background-color: #707070;
 }
 
-#title 
+#title
 {
     font-size: 40px;
     width: 100%;
@@ -29,9 +29,7 @@ body
     margin-left: 15%;
     padding: 25px;
     background-color: #b2b2b2;
-}
-
-#accessUIDiv
+}#accessUIDiv
 {
     font-size: 30px;
     width: 70%;
@@ -57,28 +55,35 @@ body
 
 #loginName
 {
-	font-size: 30px;
+        font-size: 30px;
 }
 #loginPassword
 {
-	font-size: 30px;
-}
-#searchText
+        font-size: 30px;
+}#searchText
 {
-	font-size: 30px;
+        font-size: 30px;
 }
 #colorText
 {
-	font-size: 30px;
+        font-size: 30px;
 }
 
 input[type="text"],input[type="password"]{
     border-radius: 25px;
     text-align: center;
     width: 80%;
-    margin-left: 10%;
+    margin-left: 5%;
     margin-bottom: 2%;
     font-family: 'Ubuntu', sans-serif;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+
+
 }
 
 #inner-title{
@@ -87,8 +92,7 @@ input[type="text"],input[type="password"]{
     width: 90%;
     text-align: center;
     margin-left: 5%;
-    margin-bottom: 2%;
-    font-family: 'Ubuntu', sans-serif;
+    margin-bottom: 2%; font-family: 'Ubuntu', sans-serif;
     color: #95060a;
 }
 
@@ -137,4 +141,15 @@ select{
     margin-bottom: 1%;
     font-family: 'Ubuntu', sans-serif;
     color: #95060a;
+}
+::placeholder {
+    text-align: center;
+}
+
+input::-webkit-input-placeholder {
+    text-align: center;
+}
+
+input:-ms-input-placeholder {
+    text-align: center;
 }
