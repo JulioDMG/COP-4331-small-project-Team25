@@ -1,22 +1,69 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<title>COP 4331 LAMP Stack Demo</title>
-	<script type="text/javascript" src="md5.js"></script>
-	<script type="text/javascript" src="code.js"></script>
-    <link href="styles.css" rel="stylesheet">	
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <title>Simple Contact Manager</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+
+    <!-- JS -->
+    <script src="js/md5.js"></script>
+    <script src="js/code.js"></script>
+
+    <!-- Match Contacts Page Style -->
+    <style>
+        body {
+            background: #2b2118;
+            color: grey;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #loginDiv {
+            background: #1f1812;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            width: 300px;
+        }
+
+        input {
+            width: 90%;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+            width: 95%;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1 id="title">COP 4331 LAMP Stack Demo</h1>
+    <div>
+        <h1 style="text-align:center;">Simple Contact Manager</h1>
 
-<div id="loginDiv">
-	<span id="inner-title">PLEASE LOG IN</span>
-	<input type="text" id="loginName" placeholder="Username" /><br />
-	<input type="password" id="loginPassword" placeholder="Password"/><br />
-	<button type="button" id="loginButton" class="buttons" onclick="doLogin();"> Do It </button>
-	<span id="loginResult"></span>
-</div>
+        <div id="loginDiv">
+            <span id="inner-title">PLEASE LOG IN</span><br><br>
+
+            <input type="text" id="loginName" placeholder="Username"><br>
+            <input type="password" id="loginPassword" placeholder="Password"><br>
+
+            <button class="buttons" onclick="doLogin()">Login</button>
+            <button class="buttons" onclick="goToRegister()">Register</button>
+
+            <br><br>
+            <span id="loginResult"></span>
+        </div>
+    </div>
 
 </body>
 </html>
