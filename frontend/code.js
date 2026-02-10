@@ -244,10 +244,11 @@ function addContact() {
                 xhr.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
                                 let jsonObject = JSON.parse(xhr.responseText);
+
                                 if (jsonObject.error !== "") {
-                                        alert("Error: " + jsonObject.error);
+                                        showStatus(jsonObject.error, "red");
                                 } else {
-                                        alert("Contact added successfully!");
+                                        showStatus("Contact added", "green");
                                 }
                         }
                 };
@@ -296,11 +297,11 @@ function updateContact(contactId) {
 
             if (response.error !== "")
             {
-                alert(response.error);
+                showStatus(response.error, "red");
             }
             else
             {
-                alert("Contact updated successfully");
+                showStatus("Contact updated", "red");
                 searchContacts(); // refresh list if you have this
             }
         }
@@ -324,9 +325,6 @@ function loadContactForEdit(id, first, last, phone, email)
 // Delete Contact
 function deleteContact(contactId)
 {
-    if (!confirm("Are you sure you want to delete this contact?")) {
-        return;
-    }
 
     let tmp = {
         id: contactId,
@@ -348,15 +346,27 @@ function deleteContact(contactId)
 
             if (response.error !== "")
             {
-                alert(response.error);
+                showStatus(response.error, "red");
             }
             else
             {
-                alert("Contact deleted");
+                showStatus("Contact deleted", "red");
                 searchContacts(); // refresh list
             }
         }
     };
 
     xhr.send(jsonPayload);
+}
+
+// Show status of updating
+function showStatus(message, color = "red") {
+    const el = document.getElementById("statusMessage");
+    el.style.color = color;
+    el.innerHTML = message;
+
+    // Clear after 5 seconds
+    setTimeout(() => {
+        el.innerHTML = "";
+    }, 5000);
 }
