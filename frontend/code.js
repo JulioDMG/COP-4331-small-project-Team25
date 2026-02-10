@@ -249,11 +249,21 @@ function addContact() {
                 xhr.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
                                 let jsonObject = JSON.parse(xhr.responseText);
-
                                 if (jsonObject.error !== "") {
                                         showStatus(jsonObject.error, "red");
                                 } else {
                                         showStatus("Contact added", "green");
+
+                                        //  Hide Add Contact form after success
+                                        document.getElementById("addContactForm").style.display = "none";
+
+                                        // Clear inputs
+                                        document.getElementById("firstName").value = "";
+                                        document.getElementById("lastName").value = "";
+                                        document.getElementById("phone").value = "";
+                                        document.getElementById("email").value = "";
+
+                                        searchContacts();
                                 }
                         }
                 };
@@ -306,7 +316,15 @@ function updateContact(contactId) {
             }
             else
             {
-                showStatus("Contact updated", "red");
+                showStatus("Contact updated", "green");
+                // Hide Update Contact form after success
+                document.getElementById("updateContactForm").style.display = "none";
+
+                // Clear update inputs
+                document.getElementById("updateFirstName").value = "";
+                document.getElementById("updateLastName").value = "";
+                document.getElementById("updatePhone").value = "";
+                document.getElementById("updateEmail").value = "";
                 searchContacts(); // refresh list if you have this
             }
         }
