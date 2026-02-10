@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Register</title>
 
   <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
 
   <!-- Match Login / Contacts Style -->
   <style>
@@ -37,6 +37,16 @@
       width: 95%;
       margin-top: 10px;
     }
+
+    #loginDiv .buttons{
+      width: 70%;
+      margin-left: 5%;
+      font-size: 26px;
+    }
+
+    #loginDiv .backBtn{
+      margin-top: 15px;
+    }
   </style>
 </head>
 
@@ -51,18 +61,20 @@
       <input type="text" id="firstName" placeholder="First Name"><br>
       <input type="text" id="lastName" placeholder="Last Name"><br>
       <input type="text" id="login" placeholder="Username"><br>
-      <input type="password" id="password" placeholder="Password"><br>
+      <input type="password" id="password" placeholder="Password"><br><br>
 
-      <button class="buttons" onclick="doRegister()">Register</button>
+      <button class="buttons" onclick="doRegister()">Register</button><br>
 
-      <br><br>
-      <span id="registerResult"></span><br>
+      <span id="registerResult"></span><br><br>
 
-      <button class="buttons" onclick="goToLogin()">Back to Login</button>
+      <button class="buttons backBtn" onclick="window.location.href='index.html'">
+        Back to Login
+      </button>
     </div>
   </div>
 
-  <script src="js/md5.js"></script>
+  <script src="md5.js"></script>
   <script src="js/code.js"></script>
+
 </body>
 </html>
