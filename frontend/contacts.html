@@ -4,34 +4,34 @@
   <title>Contacts</title>
   <link rel="stylesheet" href="styles.css">
   <script src="js/code.js"></script>
-<style>
-body{
-background: #2b2118;
-    color: Grey;
-    font-family: Arial, sans-serif;
-  }
+  <style>
+    body{
+      background: #2b2118;
+      color: Grey;
+      font-family: Arial, sans-serif;
+    }
 </style>
 </head>
-<body onload="readCookie();">
+<body id="contactsPage" onload="readCookie();">
 
   <h1 style="text-align: center;">Contacts</h1>
 
-  <!-- Search Section -->
-  <div style="text-align: center; margin-top: 20px;">
-    <h2>Search Contacts</h2>
-    <input type="text" id="searchText" placeholder="Search">
-    <button onclick="searchContacts()">Search</button>
-    <div id="searchResults" style="margin-top: 20px;"></div>
-  </div>
+<!-- Search Section -->
+<div style="text-align: center; margin-top: 20px;">
+  <h2>Search Contacts</h2>
+  <input type="text" id="searchText" placeholder="Search">
+  <button onclick="searchContacts()">Search</button>
+  <div id="searchResults" style="margin-top: 20px;"></div>
+</div>
 
-  <!-- Get All Section -->
-  <div style="text-align: center; margin-top: 40px;">
-    <h2>Get Contacts</h2>
-    <button onclick="getContacts()">Get All Contacts</button>
-    <div id="allResults" style="margin-top: 20px;"></div>
-  </div>
+<!-- Get All Section -->
+<div style="text-align: center; margin-top: 40px;">
+  <h2>Get Contacts</h2>
+  <button onclick="getContacts()">Get All Contacts</button>
+  <div id="allResults" style="margin-top: 20px;"></div>
+</div>
 
-  <!-- Add Contact Button -->
+<!-- Add Contact Button -->
 <div style="text-align: center; margin-top: 40px;">
   <button onclick="toggleAddContact()">Add New Contact</button>
 </div>
@@ -45,6 +45,16 @@ background: #2b2118;
   <input type="text" id="email" placeholder="Email"><br><br>
   <button onclick="addContact()">Submit Contact</button>
 </div>
+
+<!--  Update Contact For -->
+  <div id="updateContactForm" style="display:none; text-align:center; margin-top:20px;">
+    <h2>Update Contact</h2>
+    <input type="text" id="updateFirstName" placeholder="First Name"><br><br>
+    <input type="text" id="updateLastName" placeholder="Last Name"><br><br>
+    <input type="text" id="updatePhone" placeholder="Phone"><br><br>
+    <input type="text" id="updateEmail" placeholder="Email"><br><br>
+    <button onclick="updateContact(selectedContactId)">Update Contact</button>
+  </div>
 
   <!-- Logout -->
   <div style="text-align: center; margin-top: 30px;">
