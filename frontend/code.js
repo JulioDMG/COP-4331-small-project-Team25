@@ -6,7 +6,7 @@ let firstName = "";
 let lastName = "";
 let selectedContactId = 0;
 
-// LOGIN
+// Login
 function doLogin() {
         userId = 0;
         firstName = "";
@@ -49,7 +49,7 @@ function doLogin() {
         }
 }
 
-// COOKIE FUNCTIONS
+// Cookie functions
 function saveCookie() {
         let minutes = 20;
         let date = new Date();
@@ -78,7 +78,7 @@ function readCookie() {
         }
 }
 
-// LOGOUT
+// Logout
 function doLogout() {
         userId = 0;
         firstName = "";
@@ -87,7 +87,12 @@ function doLogout() {
         window.location.href = "index.html";
 }
 
-// REGISTER
+// Go to login
+function goToLogin() {
+    window.location.href = "index.html";
+}
+
+// Register
 function goToRegister() {
         window.location.href = "register.html";
 }
@@ -136,7 +141,7 @@ function doRegister() {
         }
 }
 
-// GET ALL CONTACTS
+// Get all contacts
 function getContacts() {
         let tmp = { userId: userId };
         let jsonPayload = JSON.stringify(tmp);
@@ -168,7 +173,7 @@ function getContacts() {
         }
 }
 
-// SEARCH CONTACTS
+// Search contacts
 function searchContacts() {
     let srch = document.getElementById("searchText").value;
     document.getElementById("searchResults").innerHTML = "";
@@ -218,7 +223,7 @@ function searchContacts() {
 }
 
 
-// ADD CONTACT
+// Add contact
 function addContact() {
         let firstName = document.getElementById("firstName").value;
         let lastName = document.getElementById("lastName").value;
@@ -258,13 +263,13 @@ function addContact() {
         }
 }
 
-// TOGGLE ADD CONTACT FORM
+// Toggle add contact form
 function toggleAddContact() {
     const form = document.getElementById("addContactForm");
     form.style.display = (form.style.display === "none") ? "block" : "none";
 }
 
-// Update contacts (edit or delete)
+// Update contacts
 function updateContact(contactId) {
 
     let firstName = document.getElementById("updateFirstName").value;
