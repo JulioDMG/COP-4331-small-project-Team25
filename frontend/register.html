@@ -3,27 +3,65 @@
 <head>
   <title>Register</title>
 
+  <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+
+  <!-- Match Login / Contacts Style -->
+  <style>
+    body {
+      background: #2b2118;
+      color: grey;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #loginDiv {
+      background: #1f1812;
+      padding: 30px;
+      border-radius: 8px;
+      text-align: center;
+      width: 320px;
+    }
+
+    input {
+      width: 90%;
+      margin-bottom: 10px;
+    }
+
+    button {
+      width: 95%;
+      margin-top: 10px;
+    }
+  </style>
 </head>
+
 <body>
 
-  <h1 id="title">Register</h1>
+  <div>
+    <h1 style="text-align:center;">Register</h1>
 
-  <div id="loginDiv">
-    <span id="inner-title">CREATE ACCOUNT</span><br>
+    <div id="loginDiv">
+      <span id="inner-title">CREATE ACCOUNT</span><br><br>
 
-    <input type="text" id="firstName" placeholder="First Name"><br>
-    <input type="text" id="lastName" placeholder="Last Name"><br>
-    <input type="text" id="login" placeholder="Username"><br>
-    <input type="password" id="password" placeholder="Password"><br>
+      <input type="text" id="firstName" placeholder="First Name"><br>
+      <input type="text" id="lastName" placeholder="Last Name"><br>
+      <input type="text" id="login" placeholder="Username"><br>
+      <input type="password" id="password" placeholder="Password"><br>
 
+      <button class="buttons" onclick="doRegister()">Register</button>
 
-    <button class="buttons" onclick="doRegister()">Register</button><br>
-    <span id="registerResult"></span>
+      <br><br>
+      <span id="registerResult"></span><br>
 
-    <button class="buttons" onclick="goToLogin()">Back to Login</button>
-
+      <button class="buttons" onclick="goToLogin()">Back to Login</button>
+    </div>
   </div>
+
   <script src="js/md5.js"></script>
   <script src="js/code.js"></script>
 </body>
