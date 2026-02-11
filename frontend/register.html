@@ -30,7 +30,8 @@
     /* Black box */
     #loginDiv {
       background: #1f1812;
-      padding: 30px; border-radius: 8px;
+      padding: 30px;
+      border-radius: 8px;
       width: 320px;
       text-align: center;
 
@@ -62,12 +63,35 @@ button {
 #loginDiv input {
   display: block;
   width: 90%;
-  margin: 10px auto;                                             
-	
+  margin: 10px auto;
   text-align: center;
 }
 
+/* === Retro Neon Accent Lines === */
+  #loginDiv {
+    position: relative; /* required for neon lines */
+  }
 
+  #loginDiv::before,
+  #loginDiv::after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    width: 3px;
+    background: #ff77cc;
+    box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
+  }
+
+  /* Left neon line */
+  #loginDiv::before {
+    left: -20px;
+  }
+
+  /* Right neon line */
+  #loginDiv::after {
+    right: -20px;
+  }
 
   </style>
 </head>
@@ -96,10 +120,8 @@ button {
     </button>
 
   </div>
+
 </div>
 
 <script src="md5.js"></script>
 <script src="js/code.js"></script>
-
-</body>
-</html>
