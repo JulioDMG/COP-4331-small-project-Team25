@@ -43,6 +43,34 @@
             margin-top: 10px;
             width: 95%;
         }
+
+    /* === Retro Neon Side Lines === */
+    #loginDiv {
+        position: relative; /* required for neon lines */
+    }
+
+    #loginDiv::before,
+    #loginDiv::after {
+        content: "";
+        position: absolute;
+        top: 12px;
+        bottom: 12px;
+        width: 3px;
+        background: #ff77cc;
+        box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
+    }
+
+    /* Left neon line */
+    #loginDiv::before {
+        left: -20px;
+    }
+
+    /* Right neon line */
+    #loginDiv::after {
+        right: -20px;
+    }
+
+
     </style>
 </head>
 
