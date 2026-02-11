@@ -70,11 +70,34 @@
         right: -20px;
     }
 
+    /* === Team 25 Logo (Top Right) === */
+#teamLogo {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#teamLogo img {
+    width: 85px;
+    cursor: pointer;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+#teamLogo img:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 14px #ff77cc);
+}
+
 
     </style>
 </head>
 
 <body>
+
+    <a href="aboutus.html" id="teamLogo">
+        <img src="images/team25logo.png" alt="Team 25 Logo">
+    </a>
 
     <div>
         <h1 style="text-align:center;">Simple Contact Manager</h1>
