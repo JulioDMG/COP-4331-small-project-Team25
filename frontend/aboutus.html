@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Team 25</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+
+    <style>
+        body {
+            background: #2b2118;
+            color: grey;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff77cc;
+            text-shadow: 0 0 12px rgba(255, 119, 204, 0.9);
+        }
+
+        .about-container {
+            max-width: 700px;
+            margin: auto;
+            background: #1f1812;
+            padding: 30px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        /* Neon side lines */
+        .about-container::before,
+        .about-container::after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            bottom: 15px;
+            width: 3px;
+            background: #ff77cc;
+            box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
+        }
+
+        .about-container::before {
+            left: -20px;
+        }
+
+        .about-container::after {
+            right: -20px;
+        }
+
+        a {
+            color: #ff77cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-shadow: 0 0 10px #ff77cc;
+        }
+
+        /* Logo top right */
+        #teamLogo {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        #teamLogo img {
+            width: 85px;
+            cursor: pointer;
+        }
+
+        /* === Team Section Styling === */
+        .team-heading {
+            color: #ff77cc;
+            margin-top: 25px;
+            text-shadow: 0 0 10px rgba(255, 119, 204, 0.9);
+        }
+
+        .team-list p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Logo -->
+    <a href="index.html" id="teamLogo">
+        <img src="images/team25logo.png" alt="Team 25 Logo">
+    </a>
+
+    <h1>About Team 25</h1>
+
+    <div class="about-container">
+        <p>
+            Team 25 is a development group focused on building clean, secure,
+            and user-friendly web applications. Our Simple Contact Manager project
+            demonstrates full-stack integration using a LAMP stack.
+        </p>
+
+        <p>
+            We emphasize separation of concerns, intuitive UI design,
+            and efficient backend communication through structured APIs.
+        </p>
+
+        <br>
+
+        <h2 class="team-heading">Our Team</h2>
+
+        <div class="team-list">
+            <p><strong>Jeremy / Nuvien</strong> : Frontend Development</p>
+            <p><strong>Yui</strong> : Database Design & Management</p>
+            <p><strong>Julio / Sammy</strong> :  Backend & API Development</p>
+        </div>
+
+        <br>
+
+        <a href="index.html">< Back to Login</a>
+    </div>
+
+</body>
+</html>
