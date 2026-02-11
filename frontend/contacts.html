@@ -45,6 +45,7 @@
     width: 300px;
     font-size: 22px;
     text-align: center;
+
   }
   /* === Shorter Contact Form Inputs === */
   #addContactForm input,
@@ -52,33 +53,41 @@
     width: 280px;        /* controls length */
     font-size: 22px;
     text-align: center;
+    margin-left: -40px !important;
   }
+body#contactsPage #searchText{
+  transform: translateX(-30px) !important;
+}
+#contactsPage h1{
+  transform: translateX(-30px);
+}
+
 
 </style>
 </head>
 <body id="contactsPage" onload="readCookie();">
 
-  <h1 style="text-align: center;">Contacts</h1>
+  <h1 style="text-align: center;margin-left:-5px;">Contacts</h1>
 
   <div id="statusMessage" style="text-align:center; margin-top:15px;"></div>
 
 <!-- Search Section -->
 <div style="text-align: center; margin-top: 20px;">
-  <h2>Search Contacts</h2>
+  <h2 style="margin-left:-30px;margin-left:-40px">Search Contacts</h2>
   <input type="text" id="searchText" placeholder="Search">
   <button onclick="searchContacts()">Search</button>
   <div id="searchResults" style="margin-top: 20px;"></div>
 </div>
 
 <!-- Get All Section -->
-<div style="text-align: center; margin-top: 40px;">
+<div style="text-align: center; margin-top: 100px; margin-left:-50px;">
   <h2>Get Contacts</h2>
   <button onclick="getContacts()">Get All Contacts</button>
   <div id="allResults" style="margin-top: 20px;"></div>
 </div>
 
 <!-- Add Contact Button -->
-<div style="text-align: center; margin-top: 40px;">
+<div style="text-align: center; margin-top: 40px;margin-left:-50px;">
   <button onclick="toggleAddContact()">Add New Contact</button>
 </div>
 
@@ -103,7 +112,7 @@
   </div>
 
   <!-- Logout -->
-  <div style="text-align: center; margin-top: 30px;">
+  <div style="text-align: center; margin-top: 30px;margin-left:-50px;">
     <button onclick="doLogout()">Logout</button>
   </div>
 
