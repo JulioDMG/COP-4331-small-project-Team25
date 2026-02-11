@@ -9,7 +9,51 @@
       background: #2b2118;
       color: Grey;
       font-family: Arial, sans-serif;
+      position: relative; /* required for neon lines */
+      margin: 0;
+      padding-bottom: 40px;
     }
+    /* === Retro Neon Side Lines (Page-wide) === */
+  body::before,
+  body::after {
+    content: "";
+    position: fixed;
+    top: 40px;
+    bottom: 40px;
+    width: 3px;
+    background: #ff77cc;
+    box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
+    z-index: 0;
+  }
+
+  body::before {
+    left: 20px;
+  }
+
+  body::after {
+    right: 20px;
+  }
+
+  /* Keep content above neon lines */
+  body * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* === Shorten Search Bar === */
+  #searchText {
+    width: 300px;
+    font-size: 22px;
+    text-align: center;
+  }
+  /* === Shorter Contact Form Inputs === */
+  #addContactForm input,
+  #updateContactForm input {
+    width: 280px;        /* controls length */
+    font-size: 22px;
+    text-align: center;
+  }
+
 </style>
 </head>
 <body id="contactsPage" onload="readCookie();">
