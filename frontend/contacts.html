@@ -4,117 +4,132 @@
   <title>Contacts</title>
   <link rel="stylesheet" href="styles.css">
   <script src="js/code.js"></script>
+
   <style>
     body{
       background: #2b2118;
-      color: Grey;
+      color: grey;
       font-family: Arial, sans-serif;
-      position: relative; /* required for neon lines */
       margin: 0;
-      padding-bottom: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 60px;
     }
-    /* === Retro Neon Side Lines (Page-wide) === */
-  body::before,
-  body::after {
-    content: "";
-    position: fixed;
-    top: 40px;
-    bottom: 40px;
-    width: 3px;
-    background: #ff77cc;
-    box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
-    z-index: 0;
-  }
 
-  body::before {
-    left: 20px;
-  }
+    /* === MAIN CONTACTS BOX === */
+    #contactsContainer{
+      width: 950px;
+      min-height: 750px;
+      background: #1f1812;
+      padding: 50px 60px;
+      border-radius: 10px;
+      position: relative;
+      text-align: center;
+    }
 
-  body::after {
-    right: 20px;
-  }
+    /* === Neon Side Lines (Attached to Box) === */
+    #contactsContainer::before,
+    #contactsContainer::after{
+      content: "";
+      position: absolute;
+      top: 30px;
+      bottom: 30px;
+      width: 3px;
+      background: #ff77cc;
+      box-shadow: 0 0 15px #ff77cc;
+    }
 
-  /* Keep content above neon lines */
-  body * {
-    position: relative;
-    z-index: 1;
-  }
+    #contactsContainer::before{
+      left: -20px;
+    }
 
-  /* === Shorten Search Bar === */
-  #searchText {
-    width: 300px;
-    font-size: 22px;
-    text-align: center;
+    #contactsContainer::after{
+      right: -20px;
+    }
 
-  }
-  /* === Shorter Contact Form Inputs === */
-  #addContactForm input,
-  #updateContactForm input {
-    width: 280px;        /* controls length */
-    font-size: 22px;
-    text-align: center;
-    margin-left: -40px !important;
-  }
-body#contactsPage #searchText{
-  transform: translateX(-30px) !important;
-}
-#contactsPage h1{
-  transform: translateX(-30px);
-}
+    h1{
+      color: #ff77cc;
+      text-shadow: 0 0 12px rgba(255, 119, 204, 0.9);
+    }
 
+    input{
+      width: 260px;
+      font-size: 18px;
+      text-align: center;
+      margin: 8px 0;
+      padding: 6px;
+    }
 
-</style>
+    button{
+      margin-top: 10px;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    #searchResults,
+    #allResults{
+      margin-top: 20px;
+    }
+
+  </style>
 </head>
+
 <body id="contactsPage" onload="readCookie();">
 
-  <h1 style="text-align: center;margin-left:-5px;">Contacts</h1>
+<div id="contactsContainer">
 
-  <div id="statusMessage" style="text-align:center; margin-top:15px;"></div>
+  <h1>Contacts</h1>
 
-<!-- Search Section -->
-<div style="text-align: center; margin-top: 20px;">
-  <h2 style="margin-left:-30px;margin-left:-40px">Search Contacts</h2>
-  <input type="text" id="searchText" placeholder="Search">
-  <button onclick="searchContacts()">Search</button>
-  <div id="searchResults" style="margin-top: 20px;"></div>
-</div>
+  <div id="statusMessage" style="margin-top:15px;"></div>
 
-<!-- Get All Section -->
-<div style="text-align: center; margin-top: 100px; margin-left:-50px;">
-  <h2>Get Contacts</h2>
-  <button onclick="getContacts()">Get All Contacts</button>
-  <div id="allResults" style="margin-top: 20px;"></div>
-</div>
+  <!-- Search Section -->
+  <div style="margin-top: 30px;">
+    <h2>Search Contacts</h2>
+    <input type="text" id="searchText" placeholder="Search">
+    <br>
+    <button onclick="searchContacts()">Search</button>
+    <div id="searchResults"></div>
+  </div>
 
-<!-- Add Contact Button -->
-<div style="text-align: center; margin-top: 40px;margin-left:-50px;">
-  <button onclick="toggleAddContact()">Add New Contact</button>
-</div>
+  <!-- Get All Section -->
+  <div style="margin-top: 60px;">
+    <h2>Get Contacts</h2>
+    <button onclick="getContacts()">Get All Contacts</button>
+    <div id="allResults"></div>
+  </div>
 
-<!-- Add Contact Form (initially hidden) -->
-<div id="addContactForm" style="display: none; text-align: center; margin-top: 20px;">
-  <h2>Add Contact</h2>
-  <input type="text" id="firstName" placeholder="First Name"><br><br>
-  <input type="text" id="lastName" placeholder="Last Name"><br><br>
-  <input type="text" id="phone" placeholder="Phone"><br><br>
-  <input type="text" id="email" placeholder="Email"><br><br>
-  <button onclick="addContact()">Submit Contact</button>
-</div>
+  <!-- Add Contact Button -->
+  <div style="margin-top: 40px;">
+    <button onclick="toggleAddContact()">Add New Contact</button>
+  </div>
 
-<!--  Update Contact For -->
-  <div id="updateContactForm" style="display:none; text-align:center; margin-top:20px;">
+  <!-- Add Contact Form -->
+  <div id="addContactForm" style="display: none; margin-top: 20px;">
+    <h2>Add Contact</h2>
+    <input type="text" id="firstName" placeholder="First Name"><br>
+    <input type="text" id="lastName" placeholder="Last Name"><br>
+    <input type="text" id="phone" placeholder="Phone"><br>
+    <input type="text" id="email" placeholder="Email"><br>
+    <button onclick="addContact()">Submit Contact</button>
+  </div>
+
+  <!-- Update Contact Form -->
+  <div id="updateContactForm" style="display:none; margin-top:20px;">
     <h2>Update Contact</h2>
-    <input type="text" id="updateFirstName" placeholder="First Name"><br><br>
-    <input type="text" id="updateLastName" placeholder="Last Name"><br><br>
-    <input type="text" id="updatePhone" placeholder="Phone"><br><br>
-    <input type="text" id="updateEmail" placeholder="Email"><br><br>
+    <input type="text" id="updateFirstName" placeholder="First Name"><br>
+    <input type="text" id="updateLastName" placeholder="Last Name"><br>
+    <input type="text" id="updatePhone" placeholder="Phone"><br>
+    <input type="text" id="updateEmail" placeholder="Email"><br>
     <button onclick="updateContact(selectedContactId)">Update Contact</button>
   </div>
 
   <!-- Logout -->
-  <div style="text-align: center; margin-top: 30px;margin-left:-50px;">
+  <div style="margin-top: 40px;">
     <button onclick="doLogout()">Logout</button>
   </div>
+
+</div>
 
 </body>
 </html>
