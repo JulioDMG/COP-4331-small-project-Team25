@@ -13,53 +13,58 @@
     <script src="js/md5.js"></script>
     <script src="js/code.js"></script>
 
-    <!-- Match Contacts Page Style -->
     <style>
       body{
-  background:#2b2118;
-  color:grey;
-  font-family:Arial, sans-serif;
-  min-height:100vh;
-  margin:0;
+        background:#2b2118;
+        color:grey;
+        font-family:Arial, sans-serif;
+        min-height:100vh;
+        margin:0;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}body > div{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-    /* centers title + box */
-}
+        display:flex;
+        justify-content:center;
+        align-items:center;
+      }
 
+      body > div{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+      }
 
+      /* Neon Pink Title */
+      h1{
+        text-align:center;
+        color:#ff77cc;
+        text-shadow:0 0 14px rgba(255,119,204,0.9);
+      }
 
-        #loginDiv {
-            background: #1f1812;
-            padding: 30px;
-            border-radius: 8px;
-            text-align: center;
-            width: 300px;
-            margin: 0 auto;
-        }
+      #loginDiv {
+        background: #1f1812;
+        padding: 30px;
+        border-radius: 8px;
+        text-align: center;
+        width: 300px;
+        margin: 0 auto;
+      }
 
-        input {
-            width: 90%;
-            margin-bottom: 10px;
-        }
+      input {
+        width: 90%;
+        margin-bottom: 10px;
+      }
 
-        button {
-            margin-top: 10px;
-            width: 95%;
-        }
+      button {
+        margin-top: 10px;
+        width: 95%;
+      }
 
-    /* === Retro Neon Side Lines === */
-    #loginDiv {
-        position: relative; /* required for neon lines */
-    }
+      /* === Retro Neon Side Lines === */
+      #loginDiv {
+        position: relative;
+      }
 
-    #loginDiv::before,
-    #loginDiv::after {
+      #loginDiv::before,
+      #loginDiv::after {
         content: "";
         position: absolute;
         top: 12px;
@@ -67,46 +72,44 @@
         width: 3px;
         background: #ff77cc;
         box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
-    }
+      }
 
-    /* Left neon line */
-    #loginDiv::before {
+      #loginDiv::before {
         left: -20px;
-    }
+      }
 
-    /* Right neon line */
-    #loginDiv::after {
+      #loginDiv::after {
         right: -20px;
-    }
+      }
 
-    /* === Team 25 Logo (Top Right) === */
-#teamLogo {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
+      /* Grey Subheading */
+      #inner-title{
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+        color: grey;
+        font-weight: normal;
+      }
 
-#teamLogo img {
-    width: 85px;
-    cursor: pointer;
-    transition: transform 0.2s ease, filter 0.2s ease;
-}
+      /* === Team 25 Logo (Top Right) === */
+      #teamLogo {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
 
-#teamLogo img:hover {
-    transform: scale(1.08);
-    filter: drop-shadow(0 0 14px #ff77cc);
-}
-#inner-title{
-    display: block;
-    width: 100%;
-    text-align: center;
+      #teamLogo img {
+        width: 85px;
+        cursor: pointer;
+        transition: transform 0.2s ease, filter 0.2s ease;
+      }
 
-    margin: 0 auto;
-}
-
-
-
+      #teamLogo img:hover {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 14px #ff77cc);
+      }
     </style>
 </head>
 
@@ -117,7 +120,7 @@
     </a>
 
     <div>
-        <h1 style="text-align:center;">Simple Contact Manager</h1>
+        <h1>Simple Contact Manager</h1>
 
         <div id="loginDiv">
             <span id="inner-title">PLEASE LOG IN</span><br><br>
