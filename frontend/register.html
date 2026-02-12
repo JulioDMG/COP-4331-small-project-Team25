@@ -10,21 +10,27 @@
   <!-- Page-specific styling -->
   <style>
     body {
-  background: #2b2118;
-  color: grey;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  padding-top: 60px;
-}
-
+      background: #2b2118;
+      color: grey;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      margin: 0;
+      padding-top: 60px;
+    }
 
     /* Wrapper centers title + box */
     .wrapper {
-        width: 320px;
-        text-align: center;
-        margin-left: -5%;
+      width: 320px;
+      text-align: center;
+      margin-left: -5%;
+    }
+
+    /* Neon Pink Title */
+    .wrapper h1 {
+      margin-left: 12%;
+      color: #ff77cc;
+      text-shadow: 0 0 14px rgba(255,119,204,0.9);
     }
 
     /* Black box */
@@ -34,8 +40,8 @@
       border-radius: 8px;
       width: 320px;
       text-align: center;
-
-        margin: 0 auto;
+      margin: 0 auto;
+      position: relative;
     }
 
     input {
@@ -43,55 +49,55 @@
       margin-bottom: 10px;
     }
 
-button {
+    button {
       margin-top: 10px;
     }
 
     /* Force buttons inside register box to be perfectly centered */
-#loginDiv .buttons {
-  display: block;
-  margin: 10px auto;
-  width: 70%;
-  font-size: 26px;
-}
-
+    #loginDiv .buttons {
+      display: block;
+      margin: 10px auto;
+      width: 70%;
+      font-size: 26px;
+    }
 
     #loginDiv .backBtn {
       margin-top: 15px;
     }
-/* Center inputs ONLY inside register box */
-#loginDiv input {
-  display: block;
-  width: 90%;
-  margin: 10px auto;
-  text-align: center;
-}
 
-/* === Retro Neon Accent Lines === */
-  #loginDiv {
-    position: relative; /* required for neon lines */
-  }
+    /* Center inputs ONLY inside register box */
+    #loginDiv input {
+      display: block;
+      width: 90%;
+      margin: 10px auto;
+      text-align: center;
+    }
 
-  #loginDiv::before,
-  #loginDiv::after {
-    content: "";
-    position: absolute;
-    top: 12px;
-    bottom: 12px;
-    width: 3px;
-    background: #ff77cc;
-    box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
-  }
+    /* Grey Subheading */
+    #inner-title {
+      color: grey;
+      font-weight: normal;
+    }
 
-  /* Left neon line */
-  #loginDiv::before {
-    left: -20px;
-  }
+    /* === Retro Neon Accent Lines === */
+    #loginDiv::before,
+    #loginDiv::after {
+      content: "";
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      width: 3px;
+      background: #ff77cc;
+      box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
+    }
 
-  /* Right neon line */
-  #loginDiv::after {
-    right: -20px;
-  }
+    #loginDiv::before {
+      left: -20px;
+    }
+
+    #loginDiv::after {
+      right: -20px;
+    }
 
   </style>
 </head>
@@ -100,7 +106,7 @@ button {
 
 <div class="wrapper">
 
-  <h1 style="margin-left: 12%;">Register</h1>
+  <h1>Register</h1>
 
   <div id="loginDiv">
 
@@ -125,3 +131,6 @@ button {
 
 <script src="md5.js"></script>
 <script src="js/code.js"></script>
+
+</body>
+</html>
