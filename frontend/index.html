@@ -15,7 +15,13 @@
 
     <style>
       body{
-        background:#2b2118;
+        background-color:#2b2118;
+        background-image:url("images/team25Background.png");
+        background-position:center center;
+        background-repeat:no-repeat;
+        background-size:cover;
+        background-attachment:fixed;
+
         color:grey;
         font-family:Arial, sans-serif;
         min-height:100vh;
@@ -24,6 +30,15 @@
         display:flex;
         justify-content:center;
         align-items:center;
+      }
+
+      /* subtle brown overlay like About Us */
+      body::before{
+        content:"";
+        position:fixed;
+        inset:0;
+        background:rgba(43,33,24,0.55);
+        z-index:-1;
       }
 
       body > div{
