@@ -8,12 +8,27 @@
 
     <style>
         body {
-            background: #2b2118;
+            background-color: #2b2118;
+            background-image: url("images/team25Background.png");
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;        /* Full screen */
+            background-attachment: fixed;  /* Stays in place */
+
             color: grey;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 40px;
             text-align: center;
+        }
+
+        /* Subtle dark overlay for readability */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(43, 33, 24, 0.55);
+            z-index: -1;
         }
 
         h1 {
@@ -116,7 +131,7 @@
         <div class="team-list">
             <p><strong>Jeremy / Nuvien</strong> : Frontend Development</p>
             <p><strong>Yui</strong> : Database Design & Management</p>
-            <p><strong>Julio / Sammy</strong> :  Backend & API Development</p>
+            <p><strong>Julio / Sammy</strong> : Backend & API Development</p>
         </div>
 
         <br>
