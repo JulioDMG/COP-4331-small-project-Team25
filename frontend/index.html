@@ -3,8 +3,8 @@
 <head>
     <title>Simple Contact Manager</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <!-- CSS --> <!-- removed bc we are already writting the css in the html file so this is redundant :b -->
+    <!-- <link rel="stylesheet" href="styles.css"> -->
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
@@ -47,46 +47,64 @@
         align-items:center;
       }
 
-      /* Neon Pink Title */
+      /* Neon Pink Title EDIT: added a font and spacing to the tittle :b*/
       h1{
         text-align:center;
         color:#ff77cc;
         text-shadow:0 0 14px rgba(255,119,204,0.9);
+        font-family: 'Courier New', monospace;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
       }
-
+/*modify the box a little bit to fit the items better and added a shwadow*/
       #loginDiv {
-        background: #1f1812;
+        background: rgba(31, 24, 18, 0.9);
         padding: 30px;
-        border-radius: 8px;
+        border-radius: 12px;
         text-align: center;
         width: 300px;
         margin: 0 auto;
+        border: 2px solid rgba(255, 119, 204, 0.3);
+        box-shadow: 
+            0 0 15px rgba(255, 119, 204, 0.2),
+            inset 0 0 10px rgba(255, 255, 255, 0.1);
       }
-
+      /*modify the input boxes to fit the theme better :b*/
       input {
         width: 90%;
         margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #555;
+        background: rgba(40, 30, 20, 0.8);
+        color: white;
+        font-family: 'Courier New', monospace;
       }
 
-      button {
+      /*color fot the input placeholder*/
+      input::placeholder {
+        color: #888;
+      }
+
+/*       button {
         margin-top: 10px;
         width: 95%;
-      }
+      } */
 
       /* === Retro Neon Side Lines === */
       #loginDiv {
         position: relative;
       }
-
+      /*added a gradient to the neon side lines*/
       #loginDiv::before,
       #loginDiv::after {
         content: "";
         position: absolute;
         top: 12px;
         bottom: 12px;
-        width: 3px;
-        background: #ff77cc;
-        box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
+        width: 4px;
+        background: linear-gradient(0deg, #ff6ec4, #ff9966, #ff6ec4);
+        box-shadow: 0 0 8px #ff6ec4,0 0 15px #ff9966;
       }
 
       #loginDiv::before {
@@ -97,7 +115,7 @@
         right: -20px;
       }
 
-      /* Grey Subheading */
+      /* Grey Subheading EDIT: added a font and adjusted the margin :b */
       #inner-title{
         display: block;
         width: 100%;
@@ -105,6 +123,9 @@
         margin: 0 auto;
         color: grey;
         font-weight: normal;
+        font-family: 'Courier New', monospace;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
       }
 
       /* === Team 25 Logo (Top Right) === */
@@ -125,11 +146,94 @@
         transform: scale(1.08);
         filter: drop-shadow(0 0 14px #ff77cc);
       }
-      .squareBtn{
-       border-radius: 4px;
-       width: 220px;
-       padding:10px 0;
+
+      /*Added New Neon Buttons :O*/
+    .squareBtn
+      {
+        border: none;
+        border-radius: 50px;
+        width: 220px;
+        padding: 15px 0;
+        margin-top: 12px;
+        margin-bottom: 8px;
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        font-size: 18px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+        /*New LogIn button*/
+      #loginDiv button.squareBtn:nth-of-type(1) 
+      {
+        background: linear-gradient(135deg, #ff1493, #ff6ec4, #ff1493);
+        color: rgb(137, 0, 116);
+        box-shadow: 
+        0 0 8px #ff1493,
+        0 0 15px #ff6ec4,
+        0 0 22px #ff1493;
+        text-shadow: 0 0 8px rgba(233, 33, 217, 0.9);
+      }
+      /*New sign in button*/
+      #loginDiv button.squareBtn:nth-of-type(2) 
+      {
+        background: linear-gradient(135deg, #ff6b35, #ff9e6d, #ff6b35);
+        color: rgb(168, 89, 0);
+        box-shadow: 
+        0 0 8px #ff6b35,
+        0 0 15px #ff9e6d,
+        0 0 22px #ff6b35;
+        text-shadow: 0 0 8px rgba(255, 161, 19, 0.9);
+      }
+
+      /*NEW Hover effects :O*/
+      .squareBtn:hover 
+      {
+      transform: scale(1.08);
+      box-shadow: 
+        0 0 12px currentColor,
+        0 0 22px currentColor,
+        0 0 32px currentColor,
+        0 0 42px currentColor;
+      }
+
+      /*NEW Click effect*/
+      .squareBtn:active 
+      {
+      transform: scale(0.95);
+      box-shadow: 
+        0 0 6px currentColor,
+        0 0 12px currentColor,
+        0 0 18px currentColor;
+      }
+
+      /*NEW Iddle Animations :o*/
+      @keyframes neonPulse 
+      {
+        0%, 100% 
+        {
+          box-shadow: 
+            0 0 8px currentColor,
+            0 0 15px currentColor,
+            0 0 22px currentColor;
         }
+        50% 
+        {
+          box-shadow: 
+            0 0 10px currentColor,
+            0 0 18px currentColor,
+            0 0 26px currentColor,
+            0 0 32px currentColor;
+        }
+      }
+      /*Animation timing*/
+      .squareBtn {
+        animation: neonPulse 2s infinite;
+      }
     </style>
 </head>
 
