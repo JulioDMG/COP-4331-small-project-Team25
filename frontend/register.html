@@ -10,13 +10,28 @@
   <!-- Page-specific styling -->
   <style>
     body {
-      background: #2b2118;
+      background-color: #2b2118;
+      background-image: url("images/team25Background.png");
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+
       color: grey;
       font-family: Arial, sans-serif;
       display: flex;
       justify-content: center;
       margin: 0;
       padding-top: 60px;
+    }
+
+    /* subtle brown overlay like other pages */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(43, 33, 24, 0.55);
+      z-index: -1;
     }
 
     /* Wrapper centers title + box */
@@ -56,13 +71,13 @@
     /* Force buttons inside register box to be perfectly centered */
     #loginDiv .buttons {
       display: block;
-      margin: 10px auto;
+      margin: 5px auto;
       width: 70%;
       font-size: 26px;
     }
 
     #loginDiv .backBtn {
-      margin-top: 15px;
+      margin-top: 1px;
     }
 
     /* Center inputs ONLY inside register box */
@@ -117,7 +132,7 @@
     <input type="text" id="login" placeholder="Username"><br>
     <input type="password" id="password" placeholder="Password"><br><br>
 
-    <button class="buttons" onclick="doRegister()">Register</button><br>
+    <button class="buttons" onclick="doRegister()">Register</button>
 
     <span id="registerResult"></span><br>
 
