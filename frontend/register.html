@@ -41,89 +41,183 @@
       margin-left: -5%;
     }
 
-    /* Neon Pink Title */
+    /* Neon Pink Title EDIT: font and spacing*/
     .wrapper h1 {
       margin-left: 12%;
       color: #ff77cc;
       text-shadow: 0 0 14px rgba(255,119,204,0.9);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
     }
 
-    /* Black box */
+    /* Black box EDIT: fits items better and added a shadow*/
     #loginDiv {
-      background: #1f1812;
+      background: rgba(31, 24, 18, 0.9);
       padding: 30px;
-      border-radius: 8px;
+      border-radius: 12px;
       width: 320px;
       text-align: center;
       margin: 0 auto;
       position: relative;
+      border: 2px solid rgba(255, 119, 204, 0.3);
+      box-shadow: 
+        0 0 15px rgba(255, 119, 204, 0.2),
+        inset 0 0 10px rgba(255, 255, 255, 0.1);
     }
-
+    /*improved input fields*/
     input {
       width: 90%;
       margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #555;
+      background: rgba(40, 30, 20, 0.8);
+      color: white;
+      font-family: 'Courier New', monospace;
     }
 
-    button {
+    /* input placeholder */
+    input::placeholder 
+    {
+      color: #888;
+    }
+
+
+/*     button {
       margin-top: 10px;
+    } */
+
+    /* added lines with gradients */
+    #loginDiv::before,
+    #loginDiv::after 
+    {
+      content: "";
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      width: 4px;
+      background: linear-gradient(0deg, #ff6ec4, #ff9966, #ff6ec4);
+      box-shadow: 
+        0 0 8px #ff6ec4,
+        0 0 15px #ff9966;
     }
 
-    /* Force buttons inside register box to be perfectly centered */
-    #loginDiv .buttons {
+    #loginDiv::before 
+    {
+      left: -20px;
+    }
+
+    #loginDiv::after 
+    {
+      right: -20px;
+    }
+
+    /* Force buttons inside register box to be perfectly centered EDIT: NEW NEON BUTTONS*/
+    #loginDiv .buttons 
+    {
+      border: none;
+      border-radius: 50px;
+      width: 220px;
+      padding: 15px 0;
+      margin: 12px auto 8px auto;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      font-size: 18px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
       display: block;
-      margin: 5px auto;
-      width: 70%;
-      font-size: 26px;
     }
 
-    #loginDiv .backBtn {
-      margin-top: 1px;
+    /* New register button */
+    #loginDiv .buttons:nth-of-type(1) 
+    {
+      background: linear-gradient(135deg, #ff1493, #ff6ec4, #ff1493);
+      color: rgb(137, 0, 116);
+      box-shadow: 
+        0 0 8px #ff1493,
+        0 0 15px #ff6ec4,
+        0 0 22px #ff1493;
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+    }
+    /* New Back to login button */
+    #loginDiv .buttons:nth-of-type(2) 
+    {
+    background: linear-gradient(135deg, #ff6b35, #ff9e6d, #ff6b35);
+    color: rgb(168, 89, 0);
+    box-shadow: 
+      0 0 8px #ff6b35,
+      0 0 15px #ff9e6d,
+      0 0 22px #ff6b35;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
     }
 
-    /* Center inputs ONLY inside register box */
+    /* NEW Hover Effects */
+
+    #loginDiv .buttons:hover 
+    {
+    transform: scale(1.08);
+    box-shadow: 
+      0 0 12px currentColor,
+      0 0 22px currentColor,
+      0 0 32px currentColor,
+      0 0 42px currentColor;
+    }
+
+    /* NEW Click Effect */
+
+    #loginDiv .buttons:active 
+    {
+    transform: scale(0.95);
+    box-shadow: 
+      0 0 6px currentColor,
+      0 0 12px currentColor,
+      0 0 18px currentColor;
+    }
+
+    /* New iddle animation */
+
+    @keyframes neonPulse 
+    {
+      0%, 100% 
+      {
+        box-shadow: 
+          0 0 8px currentColor,
+          0 0 15px currentColor,
+          0 0 22px currentColor;
+      }
+      50% 
+      {
+        box-shadow: 
+          0 0 10px currentColor,
+          0 0 18px currentColor,
+          0 0 26px currentColor,
+          0 0 32px currentColor;
+      }
+    }
+
+    /* iddle animation timing */
+    #loginDiv .buttons 
+    {
+      animation: neonPulse 2s infinite;
+    }
+    #createTitle {
+      position: relative;
+      left: -6px;
+    }
+
     #loginDiv input {
+      position: relative;
+      left: -6px;
       display: block;
       width: 90%;
       margin: 10px auto;
       text-align: center;
     }
 
-    /* Grey Subheading */
-    #inner-title {
-      color: grey;
-      font-weight: normal;
-    }
-
-    /* === Retro Neon Accent Lines === */
-    #loginDiv::before,
-    #loginDiv::after {
-      content: "";
-      position: absolute;
-      top: 12px;
-      bottom: 12px;
-      width: 3px;
-      background: #ff77cc;
-      box-shadow: 0 0 14px rgba(255, 119, 204, 0.9);
-    }
-
-    #loginDiv::before {
-      left: -20px;
-    }
-
-    #loginDiv::after {
-      right: -20px;
-    }
-    #createTitle{
-    position:relative;
-    left:-6px;
-    }
-    #loginDiv .buttons{
-        border-radius: 4px;
-        }
-    #loginDiv input{
-     position: relative;
-     left:-6px;
-     }
 
   </style>
 </head>
