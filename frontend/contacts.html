@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Contacts</title>
-  <link rel="stylesheet" href="styles.css">
+<!--   <link rel="stylesheet" href="styles.css"> -->
   <script src="js/code.js"></script>
 
   <style>
@@ -32,7 +32,7 @@
       z-index:-1;
     }
 
-    /* === MAIN CONTACTS BOX === */
+    /* === MAIN CONTACTS BOX === Edit: added a font and adjusted the margin :b*/
     #contactsContainer{
       width: 950px;
       min-height: 750px;
@@ -41,6 +41,10 @@
       border-radius: 10px;
       position: relative;
       text-align: center;
+      border: 2px solid rgba(255, 119, 204, 0.3);
+      box-shadow: 
+        0 0 15px rgba(255, 119, 204, 0.2),
+        inset 0 0 10px rgba(255, 255, 255, 0.1);
     }
 
     /* === Neon Side Lines (Attached to Box) === */
@@ -51,8 +55,10 @@
       top: 30px;
       bottom: 30px;
       width: 3px;
-      background: #ff77cc;
-      box-shadow: 0 0 15px #ff77cc;
+      background: linear-gradient(0deg, #ff6ec4, #ff9966, #ff6ec4);
+      box-shadow: 
+        0 0 8px #ff6ec4,
+        0 0 15px #ff9966;
     }
 
     #contactsContainer::before{
@@ -63,27 +69,141 @@
       right: -20px;
     }
 
+    /* Added a font */
     h1{
       color: #ff77cc;
       text-shadow: 0 0 12px rgba(255, 119, 204, 0.9);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
     }
-
+    /* added a color and fond to the sub titles */
+    h2
+    {
+      color: #ff77cc;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+    /* enhanced inpit fields */
     input{
       width: 260px;
       font-size: 18px;
       text-align: center;
       margin: 8px 0;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #555;
+      background: rgba(40, 30, 20, 0.8);
+      color: white;
+      font-family: 'Courier New', monospace;
     }
-
-    button{
+    /* Color for the text inside the input box */
+    input::placeholder
+    {
+      color: #888;
+    }
+/*     button{
       margin-top: 10px;
       padding: 8px 16px;
       cursor: pointer;
+    } */
+
+    /* New neon buttons */
+    button
+    {
+      border: none;
+      border-radius: 50px;
+      padding: 12px 30px;
+      margin-top: 10px;
+      margin-bottom: 8px;
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: inline-block;
+    }
+    /* Pink Buttons */
+    .pinkBtn {
+    background: linear-gradient(135deg, #ff1493, #ff6ec4, #ff1493);
+    color: rgb(137, 0, 116);
+    box-shadow: 
+        0 0 8px #ff1493,
+        0 0 15px #ff6ec4,
+        0 0 22px #ff1493;
+    text-shadow: 0 0 8px rgba(233, 33, 217, 0.9);
     }
 
+    /* Orange Button */
+    .orangeBtn {
+    background: linear-gradient(135deg, #ff6b35, #ff9e6d, #ff6b35);
+    color: rgb(168, 89, 0);
+    box-shadow: 
+        0 0 8px #ff6b35,
+        0 0 15px #ff9e6d,
+        0 0 22px #ff6b35;
+    text-shadow: 0 0 8px rgba(255, 161, 19, 0.9);
+    }
+
+    /* Hover Effect */
+    button:hover
+    {
+      transform: scale(1.08);
+      box-shadow: 
+        0 0 12px currentColor,
+        0 0 22px currentColor,
+        0 0 32px currentColor,
+        0 0 42px currentColor;
+    }
+
+    /* Click Effect */
+    button:active
+    {
+      transform: scale(0.95);
+      box-shadow: 
+        0 0 6px currentColor,
+        0 0 12px currentColor,
+        0 0 18px currentColor;
+    }
+
+    /* Iddle animation */
+    @keyframes neonPulse
+    {
+      0%, 100%
+      {
+        box-shadow: 
+          0 0 8px currentColor,
+          0 0 15px currentColor,
+          0 0 22px currentColor;
+      }
+      50%
+      {
+        box-shadow: 
+          0 0 10px currentColor,
+          0 0 18px currentColor,
+          0 0 26px currentColor,
+          0 0 32px currentColor;
+      }
+    }
+
+    /* Timming */
+      button
+      {
+        animation: neonPulse 2s infinite;
+      }
+    
+      /* Added a font */
     #searchResults,
     #allResults{
       margin-top: 20px;
+      text-align: left;
+      color: white;
+      font-family: 'Courier New', monospace;
     }
 
     #searchText{
@@ -91,41 +211,48 @@
       padding-left: 12px;
       transform: translateX(-25px);
     }
+
 #addContactForm input,
 #updateContactForm input{
   transform: translateX(-47px);
 }
 
+    #statusMessage
+    {
+      color: #ff77cc;
+      font-family: 'Courier New', monospace;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 
 <body id="contactsPage" onload="readCookie();">
 
 <div id="contactsContainer">
-
+    <!-- created classes for the buttons -->
   <h1>Contacts</h1>
 
-  <div id="statusMessage" style="margin-top:15px;"></div>
+  <div id="statusMessage"></div>
 
   <!-- Search Section -->
   <div style="margin-top: 30px;">
     <h2>Search Contacts</h2>
     <input type="text" id="searchText" placeholder="Search">
     <br>
-    <button onclick="searchContacts()">Search</button>
+    <button class="pinkBtn" onclick="searchContacts()">Search</button>
     <div id="searchResults"></div>
   </div>
 
   <!-- Get All Section -->
   <div style="margin-top: 60px;">
     <h2>Get Contacts</h2>
-    <button onclick="getContacts()">Get All Contacts</button>
+    <button class="pinkBtn" onclick="getContacts()">Get All Contacts</button>
     <div id="allResults"></div>
   </div>
 
   <!-- Add Contact Button -->
   <div style="margin-top: 40px;">
-    <button onclick="toggleAddContact()">Add New Contact</button>
+    <button class="pinkBtn" onclick="toggleAddContact()">Add New Contact</button>
   </div>
 
   <!-- Add Contact Form -->
@@ -135,7 +262,7 @@
     <input type="text" id="lastName" placeholder="Last Name"><br>
     <input type="text" id="phone" placeholder="Phone"><br>
     <input type="text" id="email" placeholder="Email"><br>
-    <button onclick="addContact()">Submit Contact</button>
+    <button class="pinkBtn" onclick="addContact()">Submit Contact</button>
   </div>
 
   <!-- Update Contact Form -->
@@ -145,12 +272,12 @@
     <input type="text" id="updateLastName" placeholder="Last Name"><br>
     <input type="text" id="updatePhone" placeholder="Phone"><br>
     <input type="text" id="updateEmail" placeholder="Email"><br>
-    <button onclick="updateContact(selectedContactId)">Update Contact</button>
+    <button class="pinkBtn" onclick="updateContact(selectedContactId)">Update Contact</button>
   </div>
 
   <!-- Logout -->
   <div style="margin-top: 40px;">
-    <button onclick="doLogout()">Logout</button>
+    <button class="orangeBtn" onclick="doLogout()">Logout</button>
   </div>
 
 </div>
