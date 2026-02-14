@@ -3,6 +3,8 @@
 <head>
   <title>Contacts</title>
 <!--   <link rel="stylesheet" href="styles.css"> -->
+  <!-- added this to get the pecil and trashcan icons  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="js/code.js"></script>
 
   <style>
@@ -191,37 +193,160 @@
       }
     }
 
-    /* Timming */
-      button
-      {
-        animation: neonPulse 2s infinite;
-      }
+    /* Timing */
+    button
+    {
+      animation: neonPulse 2s infinite;
+    }
     
-      /* Added a font */
-    #searchResults,
-    #allResults{
-      margin-top: 20px;
-      text-align: left;
-      color: white;
-      font-family: 'Courier New', monospace;
-    }
-
-    #searchText{
-      text-align: left;
-      padding-left: 12px;
-      transform: translateX(-25px);
-    }
-
-#addContactForm input,
-#updateContactForm input{
-  transform: translateX(-47px);
-}
-
     #statusMessage
     {
       color: #ff77cc;
       font-family: 'Courier New', monospace;
       margin-bottom: 20px;
+    }
+
+    /* Contact grid */
+    #contactGrid 
+    {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+      justify-items: center;
+    }
+
+    /* Contact card */
+    .contact-card 
+    {
+      background: rgba(40, 30, 20, 0.8);
+      border: 2px solid rgba(255, 119, 204, 0.3);
+      border-radius: 10px;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 
+        0 0 10px rgba(255, 119, 204, 0.1),
+        inset 0 0 8px rgba(255, 255, 255, 0.05);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    /* contact hover animation */
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+      0 0 15px rgba(255, 119, 204, 0.3),
+      inset 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    /* Title contact card */
+    .contact-card h3 
+    {
+      color: #ff77cc;
+      margin-bottom: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+    /* Contact Information */
+    .contact-info 
+    {
+      text-align: left;
+      color: white;
+      font-family: 'Courier New', monospace;
+      line-height: 1.8;
+    }
+    /* spacing */
+    .contact-info div 
+    {
+      margin-bottom: 8px;
+    }
+    .contact-info label {
+      color: #ff77cc;
+      font-weight: bold;
+      display: inline-block;
+      width: 80px;
+    }
+    /* Edit and delete buttons */
+    .contact-actions 
+    {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 119, 204, 0.2);
+    }
+    .action-btn 
+    {
+      background: none;
+      border: none;
+      color: #ff77cc;
+      font-size: 20px;
+      cursor: pointer;
+      transition: transform 0.2s ease, color 0.2s ease;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+    .action-btn:hover 
+    {
+      transform: scale(1.2);
+      color: white;
+    }
+    .action-btn.delete:hover 
+    {
+      color: #ff6b35;
+    }
+
+    /* Edit mode */
+    .contact-card.edit-mode 
+    {
+      border-color: #ff6b35;
+      box-shadow: 
+        0 0 15px rgba(255, 107, 53, 0.4),
+        inset 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    .contact-card.edit-mode .action-btn.save 
+    {
+      color: #00ff00;
+    }
+
+    .contact-card.edit-mode .action-btn.cancel 
+    {
+      color: #ff0000;
+    }
+
+    .contact-card.edit-mode .action-btn:hover 
+    {
+      color: white;
+    }
+
+    .contact-card input[type="text"] 
+    {
+      width: calc(100% - 90px);
+      margin: 0;
+      padding: 5px 8px;
+      font-size: 14px;
+      text-align: left;
+      display: inline-block;
+    }
+
+    .contact-card.edit-mode .contact-info label 
+    {
+      display: inline-block;
+      width: 70px;
+      margin-right: 5px;
+    }
+
+    /* No contcat message */
+    .no-contacts 
+    {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #888;
+      font-family: 'Courier New', monospace;
+      padding: 40px;
+      font-style: italic;
     }
   </style>
 </head>
@@ -240,7 +365,6 @@
     <input type="text" id="searchText" placeholder="Search">
     <br>
     <button class="pinkBtn" onclick="searchContacts()">Search</button>
-    <div id="searchResults"></div>
   </div>
 
   <!-- Get All Section -->
@@ -249,6 +373,9 @@
     <button class="pinkBtn" onclick="getContacts()">Get All Contacts</button>
     <div id="allResults"></div>
   </div>
+
+  <!-- Display Cnotact Grid -->
+  <div id="contactGrid"></div>
 
   <!-- Add Contact Button -->
   <div style="margin-top: 40px;">

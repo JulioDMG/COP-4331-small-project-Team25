@@ -141,7 +141,59 @@ function doRegister() {
         }
 }
 
-// Get all contacts
+/* Contact display  */
+function displayContacts(contacts) {
+    const grid = document.getElementById("contactGrid");
+    
+    if (contacts.length === 0) {
+        grid.innerHTML = "<div class='no-contacts'>No contacts found</div>";
+        return;
+    }
+
+    let html = '';
+    contacts.forEach(contact => 
+        {
+        // Escape quotes for onclick handlers
+        let first = escapeHtml(contact.firstName).replace(/'/g, "\\'");
+        let last = escapeHtml(contact.lastName).replace(/'/g, "\\'");
+        let phone = escapeHtml(contact.phone).replace(/'/g, "\\'");
+        let email = escapeHtml(contact.email).replace(/'/g, "\\'");
+        
+        html += `
+            <div class="contact-card" data-id="${contact.id}">
+                <h3>${escapeHtml(contact.firstName)} ${escapeHtml(contact.lastName)}</h3>
+                <div class="contact-info">
+                    <div><label>Phone:</label> ${escapeHtml(contact.phone)}</div>
+                    <div><label>Email:</label> ${escapeHtml(contact.email)}</div>
+                </div>
+                <div class="contact-actions">
+                    <button class="action-btn" onclick="loadContactForEdit(${contact.id}, '${first}', '${last}', '${phone}', '${email}')" title="Edit">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button class="action-btn delete" onclick="deleteContact(${contact.id})" title="Delete">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+        });
+
+    grid.innerHTML = html;
+}
+
+/* Helper Function */
+function escapeHtml(text) 
+{
+    if (!text) return '';
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+// Get all contacts EDIT: modified to work with the new layout
 function getContacts() {
         let tmp = { userId: userId };
         let jsonPayload = JSON.stringify(tmp);
@@ -154,29 +206,25 @@ function getContacts() {
 
         try {
                 xhr.onreadystatechange = function () {
-                        if (this.readyState == 4 && this.status == 200) {
+                        if (this.readyState == 4 && this.status == 200) 
+                        {
                                 let jsonObject = JSON.parse(xhr.responseText);
                                 let results = jsonObject.results;
 
-                                let resultList = "";
-                                for (let i = 0; i < results.length; i++) {
-                                        let contact = results[i];
-                                        resultList += `Name: ${contact.firstName} ${contact.lastName}, Phone: ${contact.phone}, Email: ${contact.email}<br>`;
-                                }
-
-                                document.getElementById("allResults").innerHTML = resultList;
+                                // Display in grid format
+                                displayContacts(results);
                         }
                 };
                 xhr.send(jsonPayload);
-        } catch (err) {
-                document.getElementById("allResults").innerHTML = err.message;
+        } catch (err) 
+        {
+                document.getElementById("contactGrid").innerHTML = "<div class='no-contacts'>Error: " + err.message + "</div>";
         }
 }
 
-// Search contacts
+// Search contacts EDIT: modified to work with the new layout
 function searchContacts() {
     let srch = document.getElementById("searchText").value;
-    document.getElementById("searchResults").innerHTML = "";
 
     let tmp = { search: srch, userId: userId };
     let jsonPayload = JSON.stringify(tmp);
@@ -193,32 +241,13 @@ function searchContacts() {
                 let jsonObject = JSON.parse(xhr.responseText);
                 let results = jsonObject.results;
 
-                let resultList = "";
-                for (let i = 0; i < results.length; i++) {
-                    let contact = results[i];
-
-                    // Escape single quotes to prevent JS breakage
-                    let first = contact.firstName.replace(/'/g, "\\'");
-                    let last  = contact.lastName.replace(/'/g, "\\'");
-                    let phone = contact.phone.replace(/'/g, "\\'");
-                    let email = contact.email.replace(/'/g, "\\'");
-
-                    resultList += `
-                    Name: ${first} ${last}, Phone: ${phone}, Email: ${email}
-                    <button onclick="loadContactForEdit(${contact.id},
-                    '${first}',
-                    '${last}',
-                    '${phone}',
-                    '${email}')">Edit</button>
-                    <button onclick="deleteContact(${contact.id})">Delete</button><br>`;
-                }
-
-                document.getElementById("searchResults").innerHTML = resultList;
+                // Display in grid format
+                displayContacts(results);
             }
         };
         xhr.send(jsonPayload);
     } catch (err) {
-        document.getElementById("searchResults").innerHTML = err.message;
+        document.getElementById("contactGrid").innerHTML = "<div class='no-contacts'>Error: " + err.message + "</div>";
     }
 }
 
@@ -263,7 +292,7 @@ function addContact() {
                                         document.getElementById("phone").value = "";
                                         document.getElementById("email").value = "";
 
-                                        searchContacts();
+                                        getContacts();
                                 }
                         }
                 };
@@ -325,7 +354,7 @@ function updateContact(contactId) {
                 document.getElementById("updateLastName").value = "";
                 document.getElementById("updatePhone").value = "";
                 document.getElementById("updateEmail").value = "";
-                searchContacts(); // refresh list if you have this
+                getContacts(); // refresh list if you have this
             }
         }
     };
@@ -374,7 +403,7 @@ function deleteContact(contactId)
             else
             {
                 showStatus("Contact deleted", "red");
-                searchContacts(); // refresh list
+                getContacts(); // refresh list
             }
         }
     };
