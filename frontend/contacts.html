@@ -452,6 +452,57 @@
     .modal-content::after {
       right: -25px;
     }
+    /* delete confirmation popup */
+.delete-modal {
+  width: 420px;
+  background: rgba(45, 20, 20, 0.95);
+  border-color: rgba(255, 60, 60, 0.7);
+  box-shadow: 
+    0 0 25px rgba(255, 60, 60, 0.5),
+    inset 0 0 15px rgba(255, 100, 100, 0.2);
+}
+
+.delete-warning {
+  font-family: 'Courier New', monospace;
+  color: white;
+  font-size: 18px;
+  margin: 25px 0;
+  line-height: 1.6;
+  padding: 15px;
+  background: rgba(60, 20, 20, 0.6);
+  border-radius: 10px;
+  border-left: 3px solid #ff4444;
+}
+
+.contact-name-highlight {
+  color: #ff77cc;
+  font-weight: bold;
+  font-size: 22px;
+  display: block;
+  margin-top: 8px;
+  text-shadow: 0 0 10px rgba(255, 119, 204, 0.8);
+}
+
+/* Enhanced modal side lines for delete modal */
+.delete-modal::before,
+.delete-modal::after {
+  background: linear-gradient(0deg, #ff1493, #ff4444, #ff1493);
+  box-shadow: 
+    0 0 8px #ff1493,
+    0 0 15px #ff4444;
+}
+
+/* Shake animation for delete button */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+  20%, 40%, 60%, 80% { transform: translateX(3px); }
+}
+
+.action-btn.delete:hover {
+  animation: shake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: scale(1.15);
+}
   </style>
 </head>
 
@@ -516,7 +567,7 @@
   <div class="modal-content" id="modalContent">
     <button class="modal-close" onclick="closeAddContactModal()">&times;</button>
     <div class="modal-title">CREATE CONTACT</div>
-    
+    <div id="modalStatusMessage"></div> 
     <input type="text" id="modalFirstName" placeholder="First Name">
     <input type="text" id="modalLastName" placeholder="Last Name">
     <input type="text" id="modalPhone" placeholder="Phone">
@@ -525,6 +576,23 @@
     <div class="modal-buttons">
       <button class="pinkBtn" onclick="addContactFromModal()">Create Contact</button>
       <button class="orangeBtn" onclick="closeAddContactModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+<!-- delete confirmation popup -->
+<div id="deleteConfirmModal" class="modal-overlay" onclick="closeDeleteModalIfOutside(event)">
+  <div class="modal-content delete-modal" id="deleteModalContent">
+    <button class="modal-close" onclick="closeDeleteConfirmModal()">&times;</button>
+    <div class="modal-title">DELETE CONTACT</div>
+    
+    <div class="delete-warning">
+      Are you sure you want to delete this contact?<br>
+      <span id="deleteContactName" class="contact-name-highlight"></span>
+    </div>
+    
+    <div class="modal-buttons">
+      <button class="pinkBtn" onclick="confirmDeleteContact()">YES, DELETE</button>
+      <button class="orangeBtn" onclick="closeDeleteConfirmModal()">CANCEL</button>
     </div>
   </div>
 </div>

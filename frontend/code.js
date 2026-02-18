@@ -412,16 +412,19 @@ function deleteContact(contactId)
 }
 
 // Show status of updating
-function showStatus(message, color = "red") {
-    const el = document.getElementById("statusMessage");
-    el.style.color = color;
-    el.innerHTML = message;
+function showStatus(message, color = "red", target = "statusMessage") 
+{
+  const el = document.getElementById(target);
+  if (!el) return;
 
-    // Clear after 5 seconds
-    setTimeout(() => {
-        el.innerHTML = "";
-    }, 5000);
+  el.style.color = color;
+  el.innerHTML = message;
+
+  setTimeout(() => {
+    el.innerHTML = "";
+  }, 5000);
 }
+
 
 /* popup window */
 //open modal
@@ -520,3 +523,292 @@ function showStatus(message, color = "red") {
 
     xhr.send(jsonPayload);
   }
+
+  // ===== VALIDATION FUNCTIONS =====
+function isValidEmail(email) {
+  // Basic email validation pattern
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email.trim());
+}
+
+function isValidPhone(phone) {
+  // Remove all non-digit characters and check length
+  const digitsOnly = phone.replace(/\D/g, '');
+  return digitsOnly.length >= 10;
+}
+
+function validateContactData(firstName, lastName, phone, email) {
+  // Required fields
+  if (!firstName.trim()) {
+    showStatus("First Name is required", "red", "modalStatusMessage");
+    return false;
+  }
+  
+  if (!lastName.trim()) {
+    showStatus("Last Name is required", "red", "modalStatusMessage");
+    return false;
+  }
+  
+  // Phone validation
+  if (!phone.trim()) {
+    showStatus("Phone number is required", "red", "modalStatusMessage");
+    return false;
+  }
+  
+  if (!isValidPhone(phone)) {
+    showStatus("Phone number must contain at least 10 digits", "red", "modalStatusMessage");
+    return false;
+  }
+  
+  // Email validation (optional but must be valid if provided)
+  if (email.trim() && !isValidEmail(email)) {
+    showStatus("Please enter a valid email address", "red", "modalStatusMessage");
+    return false;
+  }
+  
+  return true;
+}
+
+// ===== MODAL FUNCTIONS =====
+function openAddContactModal() {
+  const modal = document.getElementById('addContactModal');
+  modal.style.display = 'flex';
+  
+  // Trigger animation
+  setTimeout(() => {
+    document.getElementById('modalContent').classList.add('active');
+  }, 10);
+  
+  // Focus first input
+  document.getElementById('modalFirstName').focus();
+}
+
+function closeAddContactModal() {
+  const modalContent = document.getElementById('modalContent');
+  modalContent.classList.remove('active');
+  
+  // Wait for animation to finish before hiding
+  setTimeout(() => {
+    document.getElementById('addContactModal').style.display = 'none';
+    
+    // Clear inputs
+    document.getElementById('modalFirstName').value = '';
+    document.getElementById('modalLastName').value = '';
+    document.getElementById('modalPhone').value = '';
+    document.getElementById('modalEmail').value = '';
+  }, 300);
+}
+
+function closeModalIfOutside(event) {
+  if (event.target.id === 'addContactModal') {
+    closeAddContactModal();
+  }
+}
+
+// Close modal with ESC key
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && document.getElementById('addContactModal').style.display === 'flex') {
+    closeAddContactModal();
+  }
+});
+
+// Add contact from modal WITH VALIDATION
+function addContactFromModal() {
+  let firstName = document.getElementById("modalFirstName").value.trim();
+  let lastName = document.getElementById("modalLastName").value.trim();
+  let phone = document.getElementById("modalPhone").value.trim();
+  let email = document.getElementById("modalEmail").value.trim();
+  
+  // Validate input
+  if (!validateContactData(firstName, lastName, phone, email)) {
+    return;
+  }
+
+  let tmp = {
+    firstName: firstName,
+    lastName: lastName,
+    phone: phone,
+    email: email,
+    userId: userId
+  };
+
+  let jsonPayload = JSON.stringify(tmp);
+  let url = urlBase + '/CreateContact.' + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  xhr.onreadystatechange = function () {
+    if (this.readyState === 4) {
+      if (this.status === 200) {
+        try {
+          let jsonObject = JSON.parse(xhr.responseText);
+          if (jsonObject.error && jsonObject.error !== "") {
+            showStatus(jsonObject.error, "red");
+          } else {
+            showStatus("Contact added successfully!", "green");
+            closeAddContactModal();
+            getContacts(); // Refresh contact grid
+          }
+        } catch (e) {
+          showStatus("Invalid server response", "red");
+        }
+      } else {
+        showStatus("Server error: " + this.status, "red");
+      }
+    }
+  };
+
+  xhr.send(jsonPayload);
+}
+
+// ===== ENHANCED UPDATE FUNCTION WITH VALIDATION =====
+function updateContact(contactId) {
+  let firstName = document.getElementById("updateFirstName").value.trim();
+  let lastName  = document.getElementById("updateLastName").value.trim();
+  let phone     = document.getElementById("updatePhone").value.trim();
+  let email     = document.getElementById("updateEmail").value.trim();
+
+  // Validate input before sending update
+  if (!validateContactData(firstName, lastName, phone, email)) {
+    return;
+  }
+
+  let tmp = {
+    id: contactId,
+    userId: userId,
+    firstName: firstName,
+    lastName: lastName,
+    phone: phone,
+    email: email
+  };
+
+  let jsonPayload = JSON.stringify(tmp);
+  let url = urlBase + "/UpdateContact." + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  xhr.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      let response = JSON.parse(xhr.responseText);
+
+      if (response.error !== "") {
+        showStatus(response.error, "red");
+      } else {
+        showStatus("Contact updated", "green");
+        // Hide Update Contact form after success
+        document.getElementById("updateContactForm").style.display = "none";
+
+        // Clear update inputs
+        document.getElementById("updateFirstName").value = "";
+        document.getElementById("updateLastName").value = "";
+        document.getElementById("updatePhone").value = "";
+        document.getElementById("updateEmail").value = "";
+        getContacts(); // refresh list
+      }
+    }
+  };
+
+  xhr.send(jsonPayload);
+}
+
+// ===== delete confirmation =====
+let contactToDelete = null;
+
+function showDeleteConfirmModal(contactId, firstName, lastName) {
+  contactToDelete = contactId;
+  document.getElementById('deleteContactName').textContent = `${firstName} ${lastName}`;
+  
+  const modal = document.getElementById('deleteConfirmModal');
+  modal.style.display = 'flex';
+  
+  // Trigger animation
+  setTimeout(() => {
+    document.getElementById('deleteModalContent').classList.add('active');
+  }, 10);
+}
+
+function closeDeleteConfirmModal() {
+  const modalContent = document.getElementById('deleteModalContent');
+  modalContent.classList.remove('active');
+  
+  setTimeout(() => {
+    document.getElementById('deleteConfirmModal').style.display = 'none';
+    contactToDelete = null;
+  }, 300);
+}
+
+function closeDeleteModalIfOutside(event) {
+  if (event.target.id === 'deleteConfirmModal') {
+    closeDeleteConfirmModal();
+  }
+}
+
+function confirmDeleteContact() {
+  if (contactToDelete) {
+    // Call the original delete function
+    executeDeleteContact(contactToDelete);
+    closeDeleteConfirmModal();
+  }
+}
+
+// Modified deleteContact function - now shows confirmation modal instead of direct deletion
+function deleteContact(contactId) {
+  // Find the contact name from the DOM to show in confirmation
+  const card = document.querySelector(`.contact-card[data-id="${contactId}"]`);
+  if (card) {
+    const nameParts = card.querySelector('h3').textContent.split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+    showDeleteConfirmModal(contactId, firstName, lastName);
+  } else {
+    // Fallback if card not found (shouldn't happen)
+    if (confirm('Are you sure you want to delete this contact?')) {
+      executeDeleteContact(contactId);
+    }
+  }
+}
+
+// Actual deletion logic (renamed from original deleteContact)
+function executeDeleteContact(contactId) {
+  let tmp = {
+    id: contactId,
+    userId: userId
+  };
+
+  let jsonPayload = JSON.stringify(tmp);
+  let url = urlBase + "/DeleteContact." + extension;
+
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  xhr.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      let response = JSON.parse(xhr.responseText);
+
+      if (response.error !== "") {
+        showStatus(response.error, "red");
+      } else {
+        showStatus("Contact deleted", "red");
+        getContacts(); // refresh list
+      }
+    }
+  };
+
+  xhr.send(jsonPayload);
+}
+
+// Add ESC key support for delete modal
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    if (document.getElementById('deleteConfirmModal').style.display === 'flex') {
+      closeDeleteConfirmModal();
+    } else if (document.getElementById('addContactModal').style.display === 'flex') {
+      closeAddContactModal();
+    }
+  }
+});
