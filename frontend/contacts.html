@@ -503,6 +503,71 @@
   animation: shake 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   transform: scale(1.15);
 }
+
+/* Inline Edit Mode Styles */
+.contact-card.edit-mode h3 {
+  display: none;
+}
+
+.contact-edit-fields {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.contact-edit-fields input {
+  width: calc(50% - 4px);
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background: rgba(30, 20, 15, 0.9);
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  text-align: center;
+}
+
+.contact-card.edit-mode .contact-info div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.contact-card.edit-mode .contact-info label {
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.contact-card.edit-mode .contact-info input {
+  width: calc(100% - 70px);
+  padding: 6px 8px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background: rgba(30, 20, 15, 0.9);
+  color: white;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+/* Save/Cancel button colors */
+.action-btn.save {
+  color: #00ff88;
+}
+
+.action-btn.cancel {
+  color: #ff5555;
+}
+
+.action-btn.save:hover {
+  color: #00ffaa;
+  transform: scale(1.3);
+}
+
+.action-btn.cancel:hover {
+  color: #ff7777;
+  transform: scale(1.3);
+}
   </style>
 </head>
 
@@ -547,7 +612,7 @@
     <button class="pinkBtn" onclick="addContact()">Submit Contact</button>
   </div>  -->
 
-  <!-- Update Contact Form -->
+<!--    Update Contact Form 
   <div id="updateContactForm" style="display:none; margin-top:20px;">
     <h2>Update Contact</h2>
     <input type="text" id="updateFirstName" placeholder="First Name"><br>
@@ -555,7 +620,7 @@
     <input type="text" id="updatePhone" placeholder="Phone"><br>
     <input type="text" id="updateEmail" placeholder="Email"><br>
     <button class="pinkBtn" onclick="updateContact(selectedContactId)">Update Contact</button>
-  </div>
+  </div> -->
 
   <!-- Logout -->
   <div style="margin-top: 40px;">

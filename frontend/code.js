@@ -309,7 +309,7 @@ function toggleAddContact() {
 }
 
 // Update contacts
-function updateContact(contactId) {
+/* function updateContact(contactId) {
 
     let firstName = document.getElementById("updateFirstName").value;
     let lastName  = document.getElementById("updateLastName").value;
@@ -360,9 +360,9 @@ function updateContact(contactId) {
     };
 
     xhr.send(jsonPayload);
-}
+} */
 
-function loadContactForEdit(id, first, last, phone, email)
+/* function loadContactForEdit(id, first, last, phone, email)
 {
     selectedContactId = id;
 
@@ -372,7 +372,7 @@ function loadContactForEdit(id, first, last, phone, email)
     document.getElementById("updateEmail").value = email;
 
     document.getElementById("updateContactForm").style.display = "block";
-}
+} */
 
 // Delete Contact
 function deleteContact(contactId)
@@ -812,3 +812,148 @@ document.addEventListener('keydown', (event) => {
     }
   }
 });
+
+// ===== INLINE EDITING FUNCTIONS =====
+function editContactInline(contactId) {
+  const card = document.querySelector(`.contact-card[data-id="${contactId}"]`);
+  if (!card) return;
+  
+  // Store original HTML for cancel functionality
+  card.dataset.originalHtml = card.innerHTML;
+  
+  // Extract current data
+  const nameParts = card.querySelector('h3').textContent.split(' ');
+  const firstName = nameParts[0] || '';
+  const lastName = nameParts.slice(1).join(' ') || '';
+  
+  const infoDivs = card.querySelectorAll('.contact-info div');
+  const phone = infoDivs[0] ? infoDivs[0].textContent.replace('Phone:', '').trim() : '';
+  const email = infoDivs[1] ? infoDivs[1].textContent.replace('Email:', '').trim() : '';
+  
+  // Switch to edit mode
+  card.className = 'contact-card edit-mode';
+  card.innerHTML = `
+    <div class="contact-edit-fields">
+      <input type="text" class="edit-first" value="${escapeHtml(firstName)}" placeholder="First Name">
+      <input type="text" class="edit-last" value="${escapeHtml(lastName)}" placeholder="Last Name">
+    </div>
+    <div class="contact-info">
+      <div>
+        <label>Phone:</label>
+        <input type="text" class="edit-phone" value="${escapeHtml(phone)}" placeholder="Phone">
+      </div>
+      <div>
+        <label>Email:</label>
+        <input type="text" class="edit-email" value="${escapeHtml(email)}" placeholder="Email">
+      </div>
+    </div>
+    <div class="contact-actions">
+      <button class="action-btn cancel" onclick="cancelEditInline(${contactId})" title="Cancel">
+        <i class="fa fa-times"></i>
+      </button>
+      <button class="action-btn save" onclick="saveContactInline(${contactId})" title="Save">
+        <i class="fa fa-check"></i>
+      </button>
+    </div>
+  `;
+  
+  // Focus first name field
+  card.querySelector('.edit-first').focus();
+}
+
+function cancelEditInline(contactId) {
+  const card = document.querySelector(`.contact-card[data-id="${contactId}"]`);
+  if (!card || !card.dataset.originalHtml) return;
+  
+  // Restore original HTML
+  card.className = 'contact-card';
+  card.innerHTML = card.dataset.originalHtml;
+}
+
+function saveContactInline(contactId) {
+  const card = document.querySelector(`.contact-card[data-id="${contactId}"]`);
+  if (!card) return;
+  
+  // Get edited values
+  const firstName = card.querySelector('.edit-first').value.trim();
+  const lastName = card.querySelector('.edit-last').value.trim();
+  const phone = card.querySelector('.edit-phone').value.trim();
+  const email = card.querySelector('.edit-email').value.trim();
+  
+  // Validate input
+  if (!validateContactData(firstName, lastName, phone, email)) {
+    return;
+  }
+  
+  // Prepare update payload
+  let tmp = {
+    id: contactId,
+    userId: userId,
+    firstName: firstName,
+    lastName: lastName,
+    phone: phone,
+    email: email
+  };
+  
+  let jsonPayload = JSON.stringify(tmp);
+  let url = urlBase + "/UpdateContact." + extension;
+  
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+  
+  xhr.onreadystatechange = function () {
+    if (this.readyState === 4 && this.status === 200) {
+      let response = JSON.parse(xhr.responseText);
+      
+      if (response.error !== "") {
+        showStatus(response.error, "red");
+      } else {
+        showStatus("Contact updated", "green");
+        // Refresh the entire contact grid to show updated data
+        getContacts();
+      }
+    }
+  };
+  
+  xhr.send(jsonPayload);
+}
+
+// Updated displayContacts function with inline editing support
+function displayContacts(contacts) {
+  const grid = document.getElementById("contactGrid");
+  
+  if (contacts.length === 0) {
+    grid.innerHTML = "<div class='no-contacts'>No contacts found</div>";
+    return;
+  }
+  
+  let html = '';
+  contacts.forEach(contact => {
+    // Escape quotes for safety
+    let first = escapeHtml(contact.firstName);
+    let last = escapeHtml(contact.lastName);
+    let phone = escapeHtml(contact.phone);
+    let email = escapeHtml(contact.email);
+    
+    html += `
+      <div class="contact-card" data-id="${contact.id}">
+        <h3>${first} ${last}</h3>
+        <div class="contact-info">
+          <div><label>Phone:</label> ${phone}</div>
+          <div><label>Email:</label> ${email || '—'}</div>
+        </div>
+        <div class="contact-actions">
+          <button class="action-btn" onclick="editContactInline(${contact.id})" title="Edit">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button class="action-btn delete" onclick="deleteContact(${contact.id})" title="Delete">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    `;
+  });
+  
+  grid.innerHTML = html;
+}
