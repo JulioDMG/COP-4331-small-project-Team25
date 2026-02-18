@@ -422,3 +422,101 @@ function showStatus(message, color = "red") {
         el.innerHTML = "";
     }, 5000);
 }
+
+/* popup window */
+//open modal
+  function openAddContactModal() {
+    const modal = document.getElementById('addContactModal');
+    modal.style.display = 'flex';
+    
+    //animation
+    setTimeout(() => {
+      document.getElementById('modalContent').classList.add('active');
+    }, 10);
+    
+    // go to first input
+    document.getElementById('modalFirstName').focus();
+  }
+
+  // Close modal
+  function closeAddContactModal() {
+    const modalContent = document.getElementById('modalContent');
+    modalContent.classList.remove('active');
+    
+    // Wait for animation to finish before hiding
+    setTimeout(() => {
+      document.getElementById('addContactModal').style.display = 'none';
+      
+      // Clear inputs
+      document.getElementById('modalFirstName').value = '';
+      document.getElementById('modalLastName').value = '';
+      document.getElementById('modalPhone').value = '';
+      document.getElementById('modalEmail').value = '';
+    }, 300);
+  }
+
+  // Close modal if clicking outside content
+  function closeModalIfOutside(event) {
+    if (event.target.id === 'addContactModal') {
+      closeAddContactModal();
+    }
+  }
+
+  // Close modal with ESC key
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && document.getElementById('addContactModal').style.display === 'flex') {
+      closeAddContactModal();
+    }
+  });
+
+  // Add contact from modal
+  function addContactFromModal() {
+    let firstName = document.getElementById("modalFirstName").value.trim();
+    let lastName = document.getElementById("modalLastName").value.trim();
+    let phone = document.getElementById("modalPhone").value.trim();
+    let email = document.getElementById("modalEmail").value.trim();
+    
+    // Basic validation
+    if (!firstName || !lastName || !phone) {
+      showStatus("First Name, Last Name, and Phone are required", "red");
+      return;
+    }
+
+    let tmp = {
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      email: email,
+      userId: userId
+    };
+
+    let jsonPayload = JSON.stringify(tmp);
+    let url = urlBase + '/CreateContact.' + extension;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+    xhr.onreadystatechange = function () {
+      if (this.readyState === 4) {
+        if (this.status === 200) {
+          try {
+            let jsonObject = JSON.parse(xhr.responseText);
+            if (jsonObject.error && jsonObject.error !== "") {
+              showStatus(jsonObject.error, "red");
+            } else {
+              showStatus("Contact added successfully!", "green");
+              closeAddContactModal();
+              getContacts(); // Refresh contact grid
+            }
+          } catch (e) {
+            showStatus("Invalid server response", "red");
+          }
+        } else {
+          showStatus("Server error: " + this.status, "red");
+        }
+      }
+    };
+
+    xhr.send(jsonPayload);
+  }

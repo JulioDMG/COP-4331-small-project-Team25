@@ -87,7 +87,7 @@
       letter-spacing: 1px;
       margin-bottom: 15px;
     }
-    /* enhanced inpit fields */
+    /* enhanced input fields */
     input{
       width: 260px;
       font-size: 18px;
@@ -348,6 +348,110 @@
       padding: 40px;
       font-style: italic;
     }
+
+    /* new popup widow */
+     .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: rgba(31, 24, 18, 0.95);
+      border: 3px solid rgba(255, 119, 204, 0.5);
+      border-radius: 15px;
+      padding: 40px;
+      width: 400px;
+      text-align: center;
+      box-shadow: 
+        0 0 25px rgba(255, 119, 204, 0.4),
+        inset 0 0 15px rgba(255, 255, 255, 0.1);
+      position: relative;
+      transform: scale(0.9);
+      opacity: 0;
+      transition: all 0.3s ease-out;
+    }
+
+    .modal-content.active {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .modal-title {
+      color: #ff77cc;
+      font-family: 'Courier New', monospace;
+      font-size: 28px;
+      margin-bottom: 25px;
+      text-shadow: 0 0 15px rgba(255, 119, 204, 0.8);
+      letter-spacing: 2px;
+    }
+
+    .modal-content input {
+      width: 90%;
+      margin: 12px auto;
+      display: block;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #ff77cc;
+      font-size: 28px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      color: white;
+      background: rgba(255, 119, 204, 0.2);
+      transform: rotate(90deg);
+    }
+
+    /* popUp window side neon lines */
+    .modal-content::before,
+    .modal-content::after {
+      content: "";
+      position: absolute;
+      top: 20px;
+      bottom: 20px;
+      width: 4px;
+      background: linear-gradient(0deg, #ff6ec4, #ff9966, #ff6ec4);
+      box-shadow: 
+        0 0 8px #ff6ec4,
+        0 0 15px #ff9966;
+    }
+
+    .modal-content::before {
+      left: -25px;
+    }
+
+    .modal-content::after {
+      right: -25px;
+    }
   </style>
 </head>
 
@@ -379,10 +483,10 @@
 
   <!-- Add Contact Button -->
   <div style="margin-top: 40px;">
-    <button class="pinkBtn" onclick="toggleAddContact()">Add New Contact</button>
+    <button class="pinkBtn" onclick="openAddContactModal()">+ Add New Contact</button>
   </div>
 
-  <!-- Add Contact Form -->
+  <!-- Add Contact Form 
   <div id="addContactForm" style="display: none; margin-top: 20px;">
     <h2>Add Contact</h2>
     <input type="text" id="firstName" placeholder="First Name"><br>
@@ -390,7 +494,7 @@
     <input type="text" id="phone" placeholder="Phone"><br>
     <input type="text" id="email" placeholder="Email"><br>
     <button class="pinkBtn" onclick="addContact()">Submit Contact</button>
-  </div>
+  </div>  -->
 
   <!-- Update Contact Form -->
   <div id="updateContactForm" style="display:none; margin-top:20px;">
@@ -406,8 +510,23 @@
   <div style="margin-top: 40px;">
     <button class="orangeBtn" onclick="doLogout()">Logout</button>
   </div>
-
 </div>
-
+<!-- PopUp overlay -->
+<div id="addContactModal" class="modal-overlay" onclick="closeModalIfOutside(event)">
+  <div class="modal-content" id="modalContent">
+    <button class="modal-close" onclick="closeAddContactModal()">&times;</button>
+    <div class="modal-title">CREATE CONTACT</div>
+    
+    <input type="text" id="modalFirstName" placeholder="First Name">
+    <input type="text" id="modalLastName" placeholder="Last Name">
+    <input type="text" id="modalPhone" placeholder="Phone">
+    <input type="text" id="modalEmail" placeholder="Email">
+    
+    <div class="modal-buttons">
+      <button class="pinkBtn" onclick="addContactFromModal()">Create Contact</button>
+      <button class="orangeBtn" onclick="closeAddContactModal()">Cancel</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
